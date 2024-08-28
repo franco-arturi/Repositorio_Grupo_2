@@ -1,6 +1,6 @@
 #FUNCIONES
 #Primera Parte TP
-#   Manejo de Tareas
+#Manejo de Tareas
 def crearTarea():
 def eliminarTarea():
 def completarTarea():
