@@ -37,5 +37,25 @@ estado=True
 #MAIN
 estado=True
 while estado==True:
-    #MENU DONDE VAMOS A SELECCIONAR PRIMERO UN USUARIO.
-        #UNA VEZ CARGADO EL USUARIO, OFRECEMOS LAS OPCIONES DEL GESTOR DE TAREAS.
+#LOGIN
+#MENU
+#1.Tareas
+#2.Herramientas Estudio
+#3.Calendario
+
+#   Tareas
+#   1.Crear Tarea
+#   2.Mostrar Tareas
+#   3.Completar Tareas
+#   4.Buscar Tarea
+#   5.Eliminar Tarea
+#
+#   Herramientas Estudio
+#   1.Pomodoro
+#   2.Flashcards
+#   3.Cuestionarios
+#
+#   Calendario
+#   1.Mostrar Calendario
+#   2.Agregar evento
+#
