@@ -58,4 +58,4 @@ while estado==True:
 #   Calendario
 #   1.Mostrar Calendario
 #   2.Agregar evento
-#
+#   3.Tiempo hasta proximo examen
