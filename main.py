@@ -1,11 +1,37 @@
+#FUNCIONES
+#Primera Parte TP
+#   Manejo de Tareas
 def crearTarea():
 def eliminarTarea():
-def cargarTarea():
 def completarTarea():
-def guardarProgresoTareas():
 def buscarTarea():
+
+#   Seleccion de usuarios
 def cargarUsuario():
 def cambiarUsuario():
+def eliminarUsuario():
+
+#Calendario
+#   Recordatorios de eventos
+
+#Estudio
+#   Cronometro Pomodoro
+
+
+#   Sistema de Flashcards
+
+#   Generación de Cuestionarios
+ 
+
+#Segunda Parte TP
+def cargarTarea():
+def guardarProgresoTareas():
+def generarReporte():
+
+
+#DATOS
+estado=True
+
 
 
 #MAIN
