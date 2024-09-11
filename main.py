@@ -12,7 +12,8 @@ def completarTarea():
     pass
 def buscarTarea():
     pass
-#   Seleccion de usuarios
+
+#Seleccion de usuarios
 def cargarUsuario(listado):
     usuario=[]
     usuario.append(input("Ingrese el nombre del nuevo usuario: "))
@@ -31,7 +32,6 @@ def cambiarUsuario(listado,viejo):
             else:
                 print("Contraseña incorrecta.")
             
-    
 def eliminarUsuario(listado,nombre,cont):
     for i in listado:
         if nombre in i and cont ==i[1]:
@@ -41,10 +41,6 @@ def eliminarUsuario(listado,nombre,cont):
             return
     print(f"Usuario {nombre} no encontrado o contraseña incorrecta.")
 
-usuarios=[["a",12],["b",23],["c",34]]
-usuario=[0,0]
-
-    
 #Calendario
 #   Recordatorios de eventos
 def mostrarCalendario(dia,mes,año,):
@@ -92,6 +88,7 @@ def tiempo_restante(matriz):
         fecha_aux = d.datetime(matriz[i][2],matriz[i][1],matriz[i][0],12,0,0)
         diferencia = fecha_aux - fecha
         print(f"{matriz[i][3]} faltan {diferencia}")
+
 #Estudio
 #   Cronometro Pomodoro
 
@@ -126,45 +123,50 @@ estado=True
 usuarios=[["a",12],["b",2],["c",3]]
 usuario=[0,0]
 
-
+usuarios=[["a",12],["b",23],["c",34]]
+usuario=[0,0]
 
 #MAIN
 while estado==True:
     if usuario==[0,0]:
-        opcion=int(input("Ingrese usuario(1) o cree uno(2): "))
+        opcion=int(input(f"{'-'*20}\nIngrese usuario(1) o cree uno(2): "))
         if opcion==1:
             cambiarUsuario(usuarios,usuario)
         if opcion==2:
             cargarUsuario(usuarios)
             usuario[0]=usuarios[-1][0]
             usuario[1]=usuarios[-1][1]
-    operacion=int(input("Ingrese operacion a realizar:\n1. Administrar usuarios."))
-    if operacion == 1:
-        oper_usuarios=int(input("Ingrese operacion:\n1. Eliminar usuario.\n2. Cambiar/Crear usuario."))
-        if oper_usuarios == 1:
-            nombre=input("Ingrese nombre de usuario a eliminar.")
-            contraseña_elim=int(input("Ingrese contraseña del usuario: "))
-            eliminarUsuario(usuarios,nombre,contraseña_elim)
-            print(usuarios)
-        elif oper_usuarios == 2:
-            usuario[0]=0
-            usuario[1]=0
-    elif operacion == 2:
-        oper_calendario = int(input("Ingrese operacion:\n1. Mostrar Calendario\n2. Agregar evento\n -"))
-        ordenar_matriz(eventos_mes)
-        for i in range(len(eventos)):
-            if eventos[i][2] == año and eventos[i][1] == mes and eventos[i][0] >= dia:
-                eventos_mes.append(eventos[i])
-        ordenar_matriz(eventos_mes)
-        if oper_calendario == 1:
-            mostrarCalendario(dia,mes,año)
-            print("\nEventos del mes: ")
-            for i in range(len(eventos_mes)):
-                print(f"{eventos_mes[i][0]}/{eventos_mes[i][1]}/{eventos_mes[i][2]} ---  {eventos_mes[i][3]}")
-        elif oper_calendario == 2:
-            agregar_evento(eventos)
-        elif oper_calendario == 3:
-            tiempo_restante(eventos_mes)
+
+    elif usuario != [0,0]:
+        operacion=int(input(f"{'-'*20}\nIngrese operacion a realizar:\n1. Administrar usuarios.\n2. Calendario y Eventos."))
+
+        if operacion == 1:
+            oper_usuarios=int(input(f"{'-'*20}\nIngrese operacion:\n1. Eliminar usuario.\n2. Cambiar/Crear usuario."))
+            if oper_usuarios == 1:
+                nombre=input("Ingrese nombre de usuario a eliminar.")
+                contraseña_elim=int(input("Ingrese contraseña del usuario: "))
+                eliminarUsuario(usuarios,nombre,contraseña_elim)
+                print(usuarios)
+            elif oper_usuarios == 2:
+                usuario[0]=0
+                usuario[1]=0
+
+        elif operacion == 2:
+            oper_calendario = int(input(f"{'-'*20}\nIngrese operacion:\n1. Mostrar Clendario\n2. Agregar evento\n3. Ver tiempo restante Eventos."))
+            ordenar_matriz(eventos_mes)
+            for i in range(len(eventos)):
+                if eventos[i][2] == año and eventos[i][1] == mes and eventos[i][0] >= dia:
+                    eventos_mes.append(eventos[i])
+            ordenar_matriz(eventos_mes)
+            if oper_calendario == 1:
+                mostrarCalendario(dia,mes,año)
+                print("\nEventos del mes: ")
+                for i in range(len(eventos_mes)):
+                    print(f"{eventos_mes[i][0]}/{eventos_mes[i][1]}/{eventos_mes[i][2]} ---  {eventos_mes[i][3]}")
+            elif oper_calendario == 2:
+                agregar_evento(eventos)
+            elif oper_calendario == 3:
+                tiempo_restante(eventos_mes)
 
 
 #LOGIN
@@ -189,3 +191,21 @@ while estado==True:
 #   1.Mostrar Calendario
 #   2.Agregar evento
 #   3.Tiempo hasta proximo examen
+
+
+
+
+
+
+
+#Consultas:
+#Se puede usar datetime?
+#Se puede usar time?
+#Como se hace la doc del TP?
+"""
+
+Se puede agregar casos de uso, diagrama de flujo, explicaciones de las funciones, el alcance del proyecto.
+
+
+"""
+#Es necesario usar todas las funciones y metodos que vimos hasta ahora?
