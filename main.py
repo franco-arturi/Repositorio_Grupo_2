@@ -47,7 +47,7 @@ def mostrarCalendario(dia,mes,año,):
     meses=[["Enero",31],["Febrero",28],["Marzo",31],["Abril",30],["Mayo",31],
            ['Junio',30],['Julio',31],['Agosto',31],["Septiembre",30],['Octubre',31],["Noviembre",30],
            ['Diciembre',31]]
-    print(f"             {meses[mes-1][0]} {año}")
+    print(f"\n             {meses[mes-1][0]} {año}")
 
     contador=0
     for i in range(meses[mes-1][1]):
@@ -87,13 +87,11 @@ def tiempo_restante(matriz):
     for i in range(len(matriz)):
         fecha_aux = d.datetime(matriz[i][2],matriz[i][1],matriz[i][0],12,0,0)
         diferencia = fecha_aux - fecha
-        print(f"{matriz[i][3]} faltan {diferencia}")
+        if diferencia > d.timedelta(0):
+            print(f"{matriz[i][3]} faltan {diferencia}")
 
 #Estudio
 #   Cronometro Pomodoro
-
-
-#   Sistema de Flashcards
 
 #   Generación de Cuestionarios
  
@@ -123,8 +121,6 @@ estado=True
 usuarios=[["a",12],["b",2],["c",3]]
 usuario=[0,0]
 
-usuarios=[["a",12],["b",23],["c",34]]
-usuario=[0,0]
 
 #MAIN
 while estado==True:
@@ -152,6 +148,7 @@ while estado==True:
                 usuario[1]=0
 
         elif operacion == 2:
+            eventos_mes=[]
             oper_calendario = int(input(f"{'-'*20}\nIngrese operacion:\n1. Mostrar Clendario\n2. Agregar evento\n3. Ver tiempo restante Eventos."))
             ordenar_matriz(eventos_mes)
             for i in range(len(eventos)):
