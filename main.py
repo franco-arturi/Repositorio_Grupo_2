@@ -1,208 +1,209 @@
 import datetime as d
+import time
+
+# FUNCIONES
 
 
-#FUNCIONES
-#Primera Parte TP
-#Manejo de Tareas
-def crearTarea():
-    pass
-def eliminarTarea():
-    pass
-def completarTarea():
-    pass
-def buscarTarea():
-    pass
 
-#Seleccion de usuarios
+def pomodoro(tiempo):
+    descansos = tiempo//25
+    estudio = tiempo - 5*descansos
+
+    for i in range(descansos):
+        print("Sesion de estudio")
+        timer(estudio//descansos)
+        print("Descanso")
+        timer(5)
+    print("Sesion de estudio finalizada!!")
+
+def timer(tiempo):
+    for i in range(tiempo*60,0,-1):
+        segundos= int(i % 60)
+        minutos= int(i/60)%60
+        horas= i//3600
+        print(f"{horas:02}:{minutos:02}:{segundos:02}")
+        time.sleep(1)
+        
+# Manejo de Tareas
+
+# Usuarios
 def cargarUsuario(listado):
-    usuario=[]
-    usuario.append(input("Ingrese el nombre del nuevo usuario: "))
-    usuario.append(int(input("Ingrese clave numerica: ")))
+    nombre = input("\nIngrese el nombre del nuevo usuario: ")
+    if any(usuario[0] == nombre for usuario in listado):
+        print("\nError: El nombre de usuario ya existe.")
+        return
+    
+    clave = int(input("Ingrese clave numérica: "))
+    usuario = [nombre, clave]
     listado.append(usuario)
+    print("\nUsuario creado exitosamente.")
+    usuarioActual[:] = usuario
 
-def cambiarUsuario(listado,viejo):
-    nuevo=str(input("Ingrese  nombre de usuario: "))
-    for i in listado:
-        if nuevo in i:
-            nuevo=i
-            contraseña=int(input("Ingrese contraseña: "))
-            if contraseña == nuevo[1]:
-                viejo[0]=nuevo[0]
-                viejo[1]=nuevo[1]
+def cambiarUsuario(listado, usuarioActual):
+    # Cambia al usuario actual ingresando nombre y contraseña
+    nuevoUsuario = input("\nIngrese nombre de usuario: ")
+    for usuario in listado:
+        if nuevoUsuario == usuario[0]:
+            contraseña = int(input("Ingrese contraseña: "))
+            if contraseña == usuario[1]:
+                usuarioActual[:] = usuario
+                print("\nUsuario cambiado exitosamente.")
             else:
-                print("Contraseña incorrecta.")
-            
-def eliminarUsuario(listado,nombre,cont):
-    for i in listado:
-        if nombre in i and cont ==i[1]:
-            print(i[1])
-            del listado[listado.index(i)]
-            print(f"Usuario {nombre} eliminado.")
+                print("\nContraseña incorrecta.")
             return
-    print(f"Usuario {nombre} no encontrado o contraseña incorrecta.")
+    print("\nUsuario no encontrado.")
 
-#Calendario
-#   Recordatorios de eventos
-def mostrarCalendario(dia,mes,año,):
-    meses=[["Enero",31],["Febrero",28],["Marzo",31],["Abril",30],["Mayo",31],
-           ['Junio',30],['Julio',31],['Agosto',31],["Septiembre",30],['Octubre',31],["Noviembre",30],
-           ['Diciembre',31]]
-    print(f"\n             {meses[mes-1][0]} {año}")
+def eliminarUsuario(listado, nombre, contraseña):
+    # Elimina un usuario si se proporciona el nombre y contraseña correctos
+    for usuario in listado:
+        if nombre == usuario[0] and contraseña == usuario[1]:
+            listado.remove(usuario)
+            if usuario == usuarioActual:
+                usuarioActual[:] = [0, 0]
+            print(f"\nUsuario {nombre} eliminado con éxito.")
+            return
+    print(f"\nUsuario {nombre} no encontrado o contraseña incorrecta.")
 
-    contador=0
-    for i in range(meses[mes-1][1]):
-        if contador<6:
-            if i<dia:
-                print(f"{RED}{i+1}{RESET}".center(15),end="")
-                contador+=1
+# Calendario
+def mostrarCalendario(dia, mes, año):
+    # Muestra el calendario del mes y año especificados
+    meses = [["Enero", 31], ["Febrero", 28], ["Marzo", 31], ["Abril", 30], ["Mayo", 31],
+             ['Junio', 30], ['Julio', 31], ['Agosto', 31], ["Septiembre", 30], ['Octubre', 31],
+             ["Noviembre", 30], ['Diciembre', 31]]
+    print(f"\n             {meses[mes - 1][0]} {año}")
+    
+    contador = 0
+    for i in range(meses[mes - 1][1]):
+        if contador < 6:
+            if i + 1 < dia:
+                print(f"{RED}{i + 1}{RESET}".center(15), end="")
             else:
-                print(f"{GREEN}{i+1}{RESET}".center(15),end="")
-                contador+=1
+                print(f"{GREEN}{i + 1}{RESET}".center(15), end="")
+            contador += 1
         else:
-            if i<dia:
-                print(f"{RED}{i+1}{RESET}".center(15))
-                contador=0
+            if i + 1 < dia:
+                print(f"{RED}{i + 1}{RESET}".center(15))
             else:
-                print(f"{GREEN}{i+1}{RESET}".center(15))
-                contador=0
+                print(f"{GREEN}{i + 1}{RESET}".center(15))
+            contador = 0
 
-def ordenar_matriz(matriz):
-    for i in range(len(matriz)-1):
-        for j in range(i,len(matriz)):
-            if matriz[i][0]>matriz[j][0]:
-                aux=matriz[j]
-                matriz[j]=matriz[i]
-                matriz[i]=aux
+def ordenarEventos(eventos):
+    # Ordena los eventos por fecha
+    eventos.sort(key=lambda x: (x[2], x[1], x[0]))
 
-def agregar_evento(matriz):
-    evento=[]
-    evento.append(int(input("Ingrese dia del evento: ")))
-    evento.append(int(input("Ingrese mes del evento: ")))
-    evento.append(int(input("Ingrese año del evento: ")))
-    evento.append((input("Ingrese evento: ")))
-    matriz.append(evento)
+def agregarEvento(eventos):
+    # Agrega un nuevo evento, asegurando que la fecha no sea del pasado
+    evento = []
+    diaEvento = int(input("\nIngrese día del evento: "))
+    mesEvento = int(input("Ingrese mes del evento: "))
+    añoEvento = int(input("Ingrese año del evento: "))
+    
+    try:
+        fechaEvento = d.datetime(añoEvento, mesEvento, diaEvento)
+    except ValueError as e:
+        print(f"\nError: {e}")
+        return
+    
+    fechaActual = d.datetime.now()
+    
+    if fechaEvento < fechaActual:
+        print("\nError: No se puede agregar un evento en el pasado.")
+        return
+    
+    evento.append(diaEvento)
+    evento.append(mesEvento)
+    evento.append(añoEvento)
+    evento.append(input("Ingrese descripción del evento: "))
+    eventos.append(evento)
+    ordenarEventos(eventos)
+    print("\nEvento agregado exitosamente.")
 
-def tiempo_restante(matriz):
-    fecha=(d.datetime.now())
-    for i in range(len(matriz)):
-        fecha_aux = d.datetime(matriz[i][2],matriz[i][1],matriz[i][0],12,0,0)
-        diferencia = fecha_aux - fecha
-        if diferencia > d.timedelta(0):
-            print(f"{matriz[i][3]} faltan {diferencia}")
+def tiempoRestanteEventos(eventos):
+    # Muestra el tiempo restante para los eventos programados
+    fechaActual = d.datetime.now()
+    print("\nTiempo restante para los eventos:")
+    for evento in eventos:
+        fechaEvento = d.datetime(evento[2], evento[1], evento[0])
+        diferencia = fechaEvento - fechaActual
+        
+        if diferencia.days == 1:
+            print(f"- El día siguiente es el evento '{evento[3]}'.")
+        elif diferencia.days > 1:
+            print(f"- Faltan {diferencia.days} días para el evento '{evento[3]}'.")
+        elif diferencia.days == 0:
+            print(f"- Hoy es el evento '{evento[3]}'.")
+        else:
+            print(f"- El evento '{evento[3]}' ya ha pasado.")
 
-#Estudio
-#   Cronometro Pomodoro
+def mostrarEventos(eventos):
+    # Muestra todos los eventos programados
+    if eventos:
+        print("\nEventos programados:")
+        for evento in eventos:
+            fechaEvento = f"{evento[0]}/{evento[1]}/{evento[2]}"
+            print(f"- {fechaEvento}: {evento[3]}")
+    else:
+        print("\nNo hay eventos programados.")
 
-#   Generación de Cuestionarios
- 
-
-#Segunda Parte TP
-def cargarTarea():
-    pass
-def guardarProgresoTareas():
-    pass
-def generarReporte():
-    pass
-
-
-#DATOS
-
-
-RED = "\033[31m"
-GREEN = "\033[32m"
-RESET = "\033[0m"
-dia=d.date.today().day
-mes=d.date.today().month
-año=d.date.today().year
-eventos=[[10,9,2024,"Examen Quimica."],[12,9,2024,"Examen Fisica"],[9,9,2024,"Examen Progra"],[9,9,2025,"Examen Matematica"]]
-eventos_mes=[]
-
-estado=True
-usuarios=[["a",12],["b",2],["c",3]]
-usuario=[0,0]
+# Cuestionarios
 
 
-#MAIN
-while estado==True:
-    if usuario==[0,0]:
-        opcion=int(input(f"{'-'*20}\nIngrese usuario(1) o cree uno(2): "))
-        if opcion==1:
-            cambiarUsuario(usuarios,usuario)
-        if opcion==2:
+# DATOS
+RED = "\033[31m"  # Rojo
+GREEN = "\033[32m"  # Verde
+RESET = "\033[0m"  # Este reset reestablece el color. No se si funciona o si es al pedo. Chequealo y si no te parece ok sacalo nomas.
+diaActual = d.date.today().day
+mesActual = d.date.today().month
+añoActual = d.date.today().year
+eventos = [[10, 9, 2024, "Examen de Química"], [12, 9, 2024, "Examen de Física"], [9, 9, 2024, "Examen de Programación"]]
+usuarios = [["usuario1", 1234], ["usuario2", 5678]]
+usuarioActual = [0, 0]
+
+
+# MAIN
+opcionMenuPrincipal = 0
+
+while opcionMenuPrincipal != -1:
+    if usuarioActual == [0, 0]:
+        opcionUsuario = int(input("\n1. Ingresar usuario\n2. Crear usuario\n-1. Salir\nSelecciona una opción: "))
+        if opcionUsuario == 1:
+            cambiarUsuario(usuarios, usuarioActual)
+        elif opcionUsuario == 2:
             cargarUsuario(usuarios)
-            usuario[0]=usuarios[-1][0]
-            usuario[1]=usuarios[-1][1]
-
-    elif usuario != [0,0]:
-        operacion=int(input(f"{'-'*20}\nIngrese operacion a realizar:\n1. Administrar usuarios.\n2. Calendario y Eventos."))
-
-        if operacion == 1:
-            oper_usuarios=int(input(f"{'-'*20}\nIngrese operacion:\n1. Eliminar usuario.\n2. Cambiar/Crear usuario."))
-            if oper_usuarios == 1:
-                nombre=input("Ingrese nombre de usuario a eliminar.")
-                contraseña_elim=int(input("Ingrese contraseña del usuario: "))
-                eliminarUsuario(usuarios,nombre,contraseña_elim)
-                print(usuarios)
-            elif oper_usuarios == 2:
-                usuario[0]=0
-                usuario[1]=0
-
-        elif operacion == 2:
-            eventos_mes=[]
-            oper_calendario = int(input(f"{'-'*20}\nIngrese operacion:\n1. Mostrar Clendario\n2. Agregar evento\n3. Ver tiempo restante Eventos."))
-            ordenar_matriz(eventos_mes)
-            for i in range(len(eventos)):
-                if eventos[i][2] == año and eventos[i][1] == mes and eventos[i][0] >= dia:
-                    eventos_mes.append(eventos[i])
-            ordenar_matriz(eventos_mes)
-            if oper_calendario == 1:
-                mostrarCalendario(dia,mes,año)
-                print("\nEventos del mes: ")
-                for i in range(len(eventos_mes)):
-                    print(f"{eventos_mes[i][0]}/{eventos_mes[i][1]}/{eventos_mes[i][2]} ---  {eventos_mes[i][3]}")
-            elif oper_calendario == 2:
-                agregar_evento(eventos)
-            elif oper_calendario == 3:
-                tiempo_restante(eventos_mes)
-
-
-#LOGIN
-#MENU
-#1.Tareas
-#2.Herramientas Estudio
-#3.Calendario
-
-#   Tareas
-#   1.Crear Tarea
-#   2.Mostrar Tareas
-#   3.Completar Tareas
-#   4.Buscar Tarea
-#   5.Eliminar Tarea
-#
-#   Herramientas Estudio
-#   1.Pomodoro
-#   2.Flashcards
-#   3.Cuestionarios
-#
-#   Calendario
-#   1.Mostrar Calendario
-#   2.Agregar evento
-#   3.Tiempo hasta proximo examen
-
-
-
-
-
-
-
-#Consultas:
-#Se puede usar datetime?
-#Se puede usar time?
-#Como se hace la doc del TP?
-"""
-
-Se puede agregar casos de uso, diagrama de flujo, explicaciones de las funciones, el alcance del proyecto.
-
-
-"""
-#Es necesario usar todas las funciones y metodos que vimos hasta ahora?
+        elif opcionUsuario == -1:
+            print("\nSaliendo del programa...")
+            opcionMenuPrincipal = -1
+    else:
+        opcionMenuPrincipal = int(input("\n1. Administrar usuarios\n2. Calendario y eventos\n\n-1. Salir\nSelecciona una opción: "))
+        
+        if opcionMenuPrincipal == 1:
+            opcionUsuarios = 0
+            while opcionUsuarios != -1:
+                opcionUsuarios = int(input("\n1. Eliminar usuario\n2. Cambiar usuario\n-1. Volver\nSelecciona una opción: "))
+                if opcionUsuarios == 1:
+                    nombre = input("\nIngrese nombre de usuario a eliminar: ")
+                    clave = int(input("Ingrese clave numérica del usuario a eliminar: "))
+                    eliminarUsuario(usuarios, nombre, clave)
+                elif opcionUsuarios == 2:
+                    cambiarUsuario(usuarios, usuarioActual)
+                elif opcionUsuarios == -1:
+                    print("\nVolviendo al menú principal...")
+        
+        elif opcionMenuPrincipal == 2:
+            opcionCalendario = 0
+            while opcionCalendario != -1:
+                opcionCalendario = int(input("\n1. Mostrar calendario\n2. Agregar evento\n3. Tiempo restante eventos\n4. Mostrar eventos\n-1. Volver\nSelecciona una opción: "))
+                if opcionCalendario == 1:
+                    mostrarCalendario(diaActual, mesActual, añoActual)
+                elif opcionCalendario == 2:
+                    agregarEvento(eventos)
+                elif opcionCalendario == 3:
+                    tiempoRestanteEventos(eventos)
+                elif opcionCalendario == 4:
+                    mostrarEventos(eventos)
+                elif opcionCalendario == -1:
+                    print("\nVolviendo al menú principal...")
+        
+        
+        elif opcionMenuPrincipal == -1:
+            print("\nSaliendo del programa....")
