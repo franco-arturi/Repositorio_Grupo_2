@@ -174,16 +174,24 @@ def tiempoRestanteEventos(eventos):
             print(f"- El evento '{evento[3]}' ya ha pasado.")
 
 def mostrarEventos(eventos):
-    # Muestra todos los eventos programados
+    # Muestra todos los eventos programados, con colores según la fecha
+    fechaActual = d.datetime.now()
     if eventos:
         print("\nEventos programados:")
         for evento in eventos:
-            fechaEvento = f"{evento[0]}/{evento[1]}/{evento[2]}"
-            print(f"- {fechaEvento}: {evento[3]}")
+            fechaEvento = d.datetime(evento[2], evento[1], evento[0])
+            fechaEventoStr = f"{evento[0]}/{evento[1]}/{evento[2]}"
+            
+            if fechaEvento < fechaActual:  # Evento pasado
+                print(f"{RED}- {fechaEventoStr}: {evento[3]} (Este evento ya paso){RESET}")
+            else:  # Evento futuro
+                print(f"{GREEN}- {fechaEventoStr}: {evento[3]} (Este evento aun no paso){RESET}")
     else:
         print("\nNo hay eventos programados.")
 
 # Cuestionarios
+
+
 
 
 # DATOS
@@ -193,9 +201,10 @@ RESET = "\033[0m"  # Este reset reestablece el color. No se si funciona o si es 
 diaActual = d.date.today().day
 mesActual = d.date.today().month
 añoActual = d.date.today().year
-eventos = [[10, 9, 2024, "Examen de Química"], [12, 9, 2024, "Examen de Física"], [9, 9, 2024, "Examen de Programación"]]
+eventos = [[9, 9, 2024, "Examen de Programación"],[10, 9, 2024, "Examen de Química"], [12, 9, 2024, "Examen de Física"],[28, 9, 2024, "Examen de matematica"]]
 usuarios = [["usuario1", 1234], ["usuario2", 5678]]
 usuarioActual = [0, 0]
+
 
 
 # MAIN
@@ -224,9 +233,6 @@ while opcionMenuPrincipal != -1:
                     eliminarUsuario(usuarios, nombre, clave)
                 elif opcionUsuarios == 2:
                     cambiarUsuario(usuarios, usuarioActual)
-                elif opcionMenuPrincipal == 4:
-                    ciclos_pomodoro = int(input("Ingrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
-                    pomodoro(ciclos_pomodoro)
                 elif opcionUsuarios == -1:
                     print("\nVolviendo al menú principal...")
         
@@ -245,6 +251,14 @@ while opcionMenuPrincipal != -1:
                 elif opcionCalendario == -1:
                     print("\nVolviendo al menú principal...")
         
-        
+        elif opcionMenuPrincipal == 3:
+            if not cuestionarioUsuario:
+                cuestionarioUsuario = crearCuestionario()
+            ejecutarCuestionario(cuestionarioUsuario)
+
+        elif opcionMenuPrincipal == 4:
+            ciclos_pomodoro = int(input("Ingrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
+            pomodoro(ciclos_pomodoro)
+
         elif opcionMenuPrincipal == -1:
-            print("\nSaliendo del programa....")
+            print("\nSaliendo del programa...")
