@@ -4,27 +4,65 @@ import time
 # FUNCIONES
 
 
+#Tecnica Pomodoro
 
-def pomodoro(tiempo):
-    descansos = tiempo//25
-    estudio = tiempo - 5*descansos
-
-    for i in range(descansos):
-        print("Sesion de estudio")
-        timer(estudio//descansos)
-        print("Descanso")
-        timer(5)
-    print("Sesion de estudio finalizada!!")
+def pomodoro(ciclos):
+    for i in range(ciclos):
+        print(f"Pomodoro {i + 1} - Sesión de estudio (25 minutos)")
+        timer(25)  # 25 minutos de estudio
+        if i < ciclos - 1:  # No hacer descanso después del último ciclo y terminarlo.
+            print("Descanso (5 minutos)")
+            timer(5)  # 5 minutos de descanso
+    print("Todas las sesiones de Pomodoro finalizadas!")
 
 def timer(tiempo):
-    for i in range(tiempo*60,0,-1):
-        segundos= int(i % 60)
-        minutos= int(i/60)%60
-        horas= i//3600
-        print(f"{horas:02}:{minutos:02}:{segundos:02}")
-        time.sleep(1)
+    for i in range(tiempo * 60, 0, -1):
+        segundos = int(i % 60)
+        minutos = int(i / 60) % 60
+        horas = i // 3600
+        print(f"{horas:02}:{minutos:02}:{segundos:02}", end='\r')  
+        time.sleep(1)  # Pausa de 1 segundo para simular el tiempo real
         
+
 # Manejo de Tareas
+def crearTarea(tareas, descripcion, prioridad): 
+    # Crea una nueva tarea con descripción y prioridad
+    if isinstance(descripcion, str) and isinstance(prioridad, int):
+        nuevaTarea = {"descripcion": descripcion, "prioridad": prioridad, "completa": False}
+        tareas.append(nuevaTarea)
+        print(f"\nTarea '{descripcion}' creada con prioridad {prioridad}.")
+    else:
+        print("\nError: Descripción debe ser una cadena de texto y la prioridad un entero.")
+
+def eliminarTarea(tareas, descripcion):
+    # Elimina una tarea buscandola por su descripción
+    tareaFiltrada = list(filter(lambda t: t['descripcion'] == descripcion, tareas))
+    if tareaFiltrada:
+        tareas.remove(tareaFiltrada[0])
+        print(f"\nTarea '{descripcion}' eliminada con éxito.")
+    else:
+        print(f"\nNo se encontró la tarea con descripción '{descripcion}'.")
+
+def completarTarea(tareas, descripcion):
+    # Marca una tarea como completa
+    tarea = next(filter(lambda t: t['descripcion'] == descripcion, tareas), None)
+    if tarea:
+        tarea['completa'] = True
+        print(f"\nTarea '{descripcion}' marcada como completa.")
+    else:
+        print(f"\nTarea '{descripcion}' no encontrada.")
+
+def buscarTarea(tareas, patron):
+    # Busca tareas que coincidan con un patrón específico
+    patronCompilado = re.compile(patron, re.IGNORECASE)
+    tareasEncontradas = list(filter(lambda t: patronCompilado.search(t['descripcion']), tareas))
+    if tareasEncontradas:
+        print("\nTareas encontradas:")
+        for tarea in tareasEncontradas:
+            print(f"- {tarea['descripcion']}, Prioridad: {tarea['prioridad']}")
+    else:
+        print(f"\nNo se encontraron tareas que coincidan con el patrón '{patron}'.")
+
 
 # Usuarios
 def cargarUsuario(listado):
@@ -174,7 +212,7 @@ while opcionMenuPrincipal != -1:
             print("\nSaliendo del programa...")
             opcionMenuPrincipal = -1
     else:
-        opcionMenuPrincipal = int(input("\n1. Administrar usuarios\n2. Calendario y eventos\n\n-1. Salir\nSelecciona una opción: "))
+        opcionMenuPrincipal = int(input("\n1. Administrar usuarios\n2. Calendario y eventos\n3. Cuestionarios\n4. Técnica Pomodoro\n-1. Salir\nSelecciona una opción: "))
         
         if opcionMenuPrincipal == 1:
             opcionUsuarios = 0
@@ -186,6 +224,9 @@ while opcionMenuPrincipal != -1:
                     eliminarUsuario(usuarios, nombre, clave)
                 elif opcionUsuarios == 2:
                     cambiarUsuario(usuarios, usuarioActual)
+                elif opcionMenuPrincipal == 4:
+                    ciclos_pomodoro = int(input("Ingrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
+                    pomodoro(ciclos_pomodoro)
                 elif opcionUsuarios == -1:
                     print("\nVolviendo al menú principal...")
         
