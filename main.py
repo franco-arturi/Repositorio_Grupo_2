@@ -221,11 +221,12 @@ while opcionMenuPrincipal != -1:
             print("\nSaliendo del programa...")
             opcionMenuPrincipal = -1
     else:
+        print(usuarioActual)
         opcionMenuPrincipal = int(input("\n1. Administrar usuarios\n2. Calendario y eventos\n3. Cuestionarios\n4. Técnica Pomodoro\n-1. Salir\nSelecciona una opción: "))
         
         if opcionMenuPrincipal == 1:
             opcionUsuarios = 0
-            while opcionUsuarios != -1:
+            while opcionUsuarios != -1 and usuarioActual != [0,0]:
                 opcionUsuarios = int(input("\n1. Eliminar usuario\n2. Cambiar usuario\n-1. Volver\nSelecciona una opción: "))
                 if opcionUsuarios == 1:
                     nombre = input("\nIngrese nombre de usuario a eliminar: ")
@@ -251,10 +252,7 @@ while opcionMenuPrincipal != -1:
                 elif opcionCalendario == -1:
                     print("\nVolviendo al menú principal...")
         
-        elif opcionMenuPrincipal == 3:
-            if not cuestionarioUsuario:
-                cuestionarioUsuario = crearCuestionario()
-            ejecutarCuestionario(cuestionarioUsuario)
+
 
         elif opcionMenuPrincipal == 4:
             ciclos_pomodoro = int(input("Ingrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
