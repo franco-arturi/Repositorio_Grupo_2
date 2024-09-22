@@ -1,5 +1,6 @@
 import datetime as d
 import time
+import re
 
 # FUNCIONES
 
