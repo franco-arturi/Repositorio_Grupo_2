@@ -261,7 +261,7 @@ opcionMenuPrincipal = 0
 
 while opcionMenuPrincipal != -1:
     if usuarioActual == [0, 0]:
-        opcionUsuario = int(input("\n1. Ingresar usuario\n2. Crear usuario\n-1. Salir\nSelecciona una opción: "))
+        opcionUsuario = int(input("\n 1. Ingresar usuario\n 2. Crear usuario\n-1. Salir\nSelecciona una opción: "))
         if opcionUsuario == 1:
             cambiarUsuario(usuarios, usuarioActual)
         elif opcionUsuario == 2:
