@@ -197,7 +197,46 @@ def mostrarEventos(eventos):
         print("\nNo hay eventos programados.")
 
 # Cuestionarios
+def crearCuestionario(diccionario):
+    # Se ingresa un diccionario de los cuestionarios, donde vamos a guardar el cuestionario creado.
+    # Ingresamo tematica del cuestionario, cantidad de preguntas y los detalles de cada una.
+    nombreCuestionario=input("Ingrese tematica del cuestionario.")    
+    cuestionario = []
+    numPreguntas = int(input("\n¿Número de preguntas para el cuestionario? "))
+    
+    for i in range(numPreguntas):
+        print(f"\nCreando pregunta {i + 1}:")
+        pregunta = input("Escribe la pregunta: ")
+        print("Nota: Solo se permiten 3 opciones de respuesta.")
+        opciones = [input(f"Opción {j + 1}: ") for j in range(3)]
+        correcta = int(input("¿Cuál es la opción correcta (1, 2 o 3)? "))
+        cuestionario.append({"pregunta": pregunta, "opciones": opciones, "correcta": correcta})
+    
+    print("\nCuestionario creado exitosamente.")
+    diccionario[nombreCuestionario]=cuestionario
+    return 
 
+def mostrarPregunta(pregunta, opciones):
+    # Muestra una pregunta del cuestionario con sus opciones
+    print(f"\n{pregunta}")
+    for i, opcion in enumerate(opciones, 1):
+        print(f"{i}. {opcion}")
+    eleccion = int(input("Selecciona la opción correcta (1, 2 o 3): "))
+    return eleccion
+
+def ejecutarCuestionario(cuestionario):
+    # Inicia el cuestionario y evalúa las respuestas
+    
+    puntuacion = 0
+    print("\nIniciando cuestionario...")
+    for pregunta in cuestionario:
+        eleccion = mostrarPregunta(pregunta["pregunta"], pregunta["opciones"])
+        if eleccion == pregunta["correcta"]:
+            print("Correcto!")
+            puntuacion += 1
+        else:
+            print("Incorrecto")
+    print(f"\nTu puntuación final es: {puntuacion}/{len(cuestionario)}")
 
 
 
@@ -214,7 +253,7 @@ usuarios = [["usuario1", 1234], ["usuario2", 5678]]
 # Matriz de usuarios(nombre, contraseña)
 usuarioActual = [0, 0]
 # Usuario actual
-
+cuestionarios={}
 
 
 # MAIN
@@ -232,7 +271,7 @@ while opcionMenuPrincipal != -1:
             opcionMenuPrincipal = -1
     else:
         print(usuarioActual)
-        opcionMenuPrincipal = int(input("\n1. Administrar usuarios\n2. Calendario y eventos\n3. Cuestionarios\n4. Técnica Pomodoro\n-1. Salir\nSelecciona una opción: "))
+        opcionMenuPrincipal = int(input("\n 1. Administrar usuarios\n 2. Calendario y eventos\n 3. Cuestionarios\n 4. Técnica Pomodoro\n-1. Salir\nSelecciona una opción: "))
         
         if opcionMenuPrincipal == 1:
             opcionUsuarios = 0
@@ -262,7 +301,23 @@ while opcionMenuPrincipal != -1:
                 elif opcionCalendario == -1:
                     print("\nVolviendo al menú principal...")
         
-
+        elif opcionMenuPrincipal == 3:
+            opcionCuestionario = 0
+            while opcionCuestionario != -1:
+                opcionCuestionario=int(input("Ingrese operacion: \n 1) Crear Cuestionario. \n 2) Ejecutar cuestionario.\n-1) Salir\nOpcion:  "))
+                if opcionCuestionario==1:
+                    crearCuestionario(cuestionarios)
+                elif opcionCuestionario == 2:
+                    print("Cuestionarios disponibles.")
+                    for cuest in cuestionarios.keys():
+                        print(cuest)
+                    nom = input("Ingrese nombre de cuestionario a ejecutar: ")
+        
+                    cuestionario = cuestionarios.get(nom)
+                    if cuestionario != None:
+                        ejecutarCuestionario(cuestionario)
+                    elif cuestionario == None:
+                        print("Cuestionario inexistente.")
 
         elif opcionMenuPrincipal == 4:
             ciclos_pomodoro = int(input("Ingrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
