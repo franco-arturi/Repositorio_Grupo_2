@@ -8,6 +8,7 @@ import re
 #Tecnica Pomodoro
 
 def pomodoro(ciclos):
+    #Input es la cantidad de ciclos a de 25 minutos de estudio y 5 de descanso.
     for i in range(ciclos):
         print(f"Pomodoro {i + 1} - Sesión de estudio (25 minutos)")
         timer(25)  # 25 minutos de estudio
@@ -17,6 +18,7 @@ def pomodoro(ciclos):
     print("Todas las sesiones de Pomodoro finalizadas!")
 
 def timer(tiempo):
+    #Se ingresa la cantidad de tiempo para el timer
     for i in range(tiempo * 60, 0, -1):
         segundos = int(i % 60)
         minutos = int(i / 60) % 60
@@ -27,7 +29,7 @@ def timer(tiempo):
 
 # Manejo de Tareas
 def crearTarea(tareas, descripcion, prioridad): 
-    # Crea una nueva tarea con descripción y prioridad
+    # Crea una nueva tarea con descripción y prioridad.
     if isinstance(descripcion, str) and isinstance(prioridad, int):
         nuevaTarea = {"descripcion": descripcion, "prioridad": prioridad, "completa": False}
         tareas.append(nuevaTarea)
@@ -36,7 +38,7 @@ def crearTarea(tareas, descripcion, prioridad):
         print("\nError: Descripción debe ser una cadena de texto y la prioridad un entero.")
 
 def eliminarTarea(tareas, descripcion):
-    # Elimina una tarea buscandola por su descripción
+    # Elimina una tarea buscandola por su descripción, en la lista de tareas.
     tareaFiltrada = list(filter(lambda t: t['descripcion'] == descripcion, tareas))
     if tareaFiltrada:
         tareas.remove(tareaFiltrada[0])
@@ -67,8 +69,10 @@ def buscarTarea(tareas, patron):
 
 # Usuarios
 def cargarUsuario(listado):
+    #Input, lista de usuarios. Se crea un nuevo usuario con su nombre y contraseña ingresadas por teclado.
     nombre = input("\nIngrese el nombre del nuevo usuario: ")
     if any(usuario[0] == nombre for usuario in listado):
+        #Se chequea que el nombre de usuario no exista.
         print("\nError: El nombre de usuario ya existe.")
         return
     
@@ -79,7 +83,7 @@ def cargarUsuario(listado):
     usuarioActual[:] = usuario
 
 def cambiarUsuario(listado, usuarioActual):
-    # Cambia al usuario actual ingresando nombre y contraseña
+    # Cambia al usuario actual ingresando nombre y contraseña.
     nuevoUsuario = input("\nIngrese nombre de usuario: ")
     for usuario in listado:
         if nuevoUsuario == usuario[0]:
@@ -93,7 +97,7 @@ def cambiarUsuario(listado, usuarioActual):
     print("\nUsuario no encontrado.")
 
 def eliminarUsuario(listado, nombre, contraseña):
-    # Elimina un usuario si se proporciona el nombre y contraseña correctos
+    # Elimina un usuario si se proporciona el nombre y contraseña correctos.
     for usuario in listado:
         if nombre == usuario[0] and contraseña == usuario[1]:
             listado.remove(usuario)
@@ -105,7 +109,7 @@ def eliminarUsuario(listado, nombre, contraseña):
 
 # Calendario
 def mostrarCalendario(dia, mes, año):
-    # Muestra el calendario del mes y año especificados
+    # Muestra el calendario del mes y año especificados, con el input de la fecha del dia.
     meses = [["Enero", 31], ["Febrero", 28], ["Marzo", 31], ["Abril", 30], ["Mayo", 31],
              ['Junio', 30], ['Julio', 31], ['Agosto', 31], ["Septiembre", 30], ['Octubre', 31],
              ["Noviembre", 30], ['Diciembre', 31]]
@@ -115,8 +119,10 @@ def mostrarCalendario(dia, mes, año):
     for i in range(meses[mes - 1][1]):
         if contador < 6:
             if i + 1 < dia:
+                # El dia se imprime en rojo si ya paso. Reset deja el color original de la fuente.
                 print(f"{RED}{i + 1}{RESET}".center(15), end="")
             else:
+                # El dia se imprime en verde si no paso. Reset deja el color original de la fuente.
                 print(f"{GREEN}{i + 1}{RESET}".center(15), end="")
             contador += 1
         else:
@@ -127,11 +133,11 @@ def mostrarCalendario(dia, mes, año):
             contador = 0
 
 def ordenarEventos(eventos):
-    # Ordena los eventos por fecha
+    # Ordena los eventos por fecha, el input es la lista de eventos.
     eventos.sort(key=lambda x: (x[2], x[1], x[0]))
 
 def agregarEvento(eventos):
-    # Agrega un nuevo evento, asegurando que la fecha no sea del pasado
+    # Agrega un nuevo evento, asegurando que la fecha no sea del pasado.
     evento = []
     diaEvento = int(input("\nIngrese día del evento: "))
     mesEvento = int(input("Ingrese mes del evento: "))
@@ -158,7 +164,7 @@ def agregarEvento(eventos):
     print("\nEvento agregado exitosamente.")
 
 def tiempoRestanteEventos(eventos):
-    # Muestra el tiempo restante para los eventos programados
+    # Muestra el tiempo restante para los eventos programados.
     fechaActual = d.datetime.now()
     print("\nTiempo restante para los eventos:")
     for evento in eventos:
@@ -175,7 +181,7 @@ def tiempoRestanteEventos(eventos):
             print(f"- El evento '{evento[3]}' ya ha pasado.")
 
 def mostrarEventos(eventos):
-    # Muestra todos los eventos programados, con colores según la fecha
+    # Muestra todos los eventos programados, con colores según la fecha.
     fechaActual = d.datetime.now()
     if eventos:
         print("\nEventos programados:")
@@ -183,9 +189,9 @@ def mostrarEventos(eventos):
             fechaEvento = d.datetime(evento[2], evento[1], evento[0])
             fechaEventoStr = f"{evento[0]}/{evento[1]}/{evento[2]}"
             
-            if fechaEvento < fechaActual:  # Evento pasado
+            if fechaEvento < fechaActual:  # Evento pasado.
                 print(f"{RED}- {fechaEventoStr}: {evento[3]} (Este evento ya paso){RESET}")
-            else:  # Evento futuro
+            else:  # Evento futuro.
                 print(f"{GREEN}- {fechaEventoStr}: {evento[3]} (Este evento aun no paso){RESET}")
     else:
         print("\nNo hay eventos programados.")
@@ -198,13 +204,16 @@ def mostrarEventos(eventos):
 # DATOS
 RED = "\033[31m"  # Rojo
 GREEN = "\033[32m"  # Verde
-RESET = "\033[0m"  # Este reset reestablece el color. No se si funciona o si es al pedo. Chequealo y si no te parece ok sacalo nomas.
-diaActual = d.date.today().day
-mesActual = d.date.today().month
-añoActual = d.date.today().year
+RESET = "\033[0m"  # Este reset reestablece el color.
+diaActual = d.date.today().day # Dia de hoy.
+mesActual = d.date.today().month # Mes actual.
+añoActual = d.date.today().year # Año actual.
 eventos = [[9, 9, 2024, "Examen de Programación"],[10, 9, 2024, "Examen de Química"], [12, 9, 2024, "Examen de Física"],[28, 9, 2024, "Examen de matematica"]]
+# Matriz de eventos(dia, mes, año, descripcion)
 usuarios = [["usuario1", 1234], ["usuario2", 5678]]
+# Matriz de usuarios(nombre, contraseña)
 usuarioActual = [0, 0]
+# Usuario actual
 
 
 
