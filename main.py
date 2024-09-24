@@ -253,7 +253,8 @@ usuarios = [["usuario1", 1234], ["usuario2", 5678]]
 # Matriz de usuarios(nombre, contraseña)
 usuarioActual = [0, 0]
 # Usuario actual
-cuestionarios={}
+cuestionarios = {'Matematica': [{'pregunta': '1+1', 'opciones': ['2', '4', '1'], 'correcta': 1}, {'pregunta': '5*5', 'opciones': ['25', '30', '20'], 'correcta': 1}, {'pregunta': '2**2', 'opciones': ['4', '6', '12'], 'correcta': 1}]}
+tareas = []
 
 
 # MAIN
@@ -270,8 +271,7 @@ while opcionMenuPrincipal != -1:
             print("\nSaliendo del programa...")
             opcionMenuPrincipal = -1
     else:
-        print(usuarioActual)
-        opcionMenuPrincipal = int(input("\n 1. Administrar usuarios\n 2. Calendario y eventos\n 3. Cuestionarios\n 4. Técnica Pomodoro\n-1. Salir\nSelecciona una opción: "))
+        opcionMenuPrincipal = int(input("\n 1. Administrar usuarios\n 2. Calendario y eventos\n 3. Cuestionarios\n 4. Técnica Pomodoro\n 5. Administrar tareas\n-1. Salir\nSelecciona una opción: "))
         
         if opcionMenuPrincipal == 1:
             opcionUsuarios = 0
@@ -304,11 +304,12 @@ while opcionMenuPrincipal != -1:
         elif opcionMenuPrincipal == 3:
             opcionCuestionario = 0
             while opcionCuestionario != -1:
-                opcionCuestionario=int(input("Ingrese operacion: \n 1) Crear Cuestionario. \n 2) Ejecutar cuestionario.\n-1) Salir\nOpcion:  "))
+                opcionCuestionario=int(input("\nIngrese operacion: \n 1) Crear Cuestionario. \n 2) Ejecutar cuestionario.\n-1) Salir\nOpcion:  "))
                 if opcionCuestionario==1:
                     crearCuestionario(cuestionarios)
+                    
                 elif opcionCuestionario == 2:
-                    print("Cuestionarios disponibles.")
+                    print("\nCuestionarios disponibles:")
                     for cuest in cuestionarios.keys():
                         print(cuest)
                     nom = input("Ingrese nombre de cuestionario a ejecutar: ")
@@ -320,8 +321,31 @@ while opcionMenuPrincipal != -1:
                         print("Cuestionario inexistente.")
 
         elif opcionMenuPrincipal == 4:
-            ciclos_pomodoro = int(input("Ingrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
+            ciclos_pomodoro = int(input("\nIngrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
             pomodoro(ciclos_pomodoro)
+
+        elif opcionMenuPrincipal == 5:
+            # Submenú de tareas
+            opcionTareas = int(input("\n1. Crear tarea\n2. Completar tarea\n3. Eliminar tarea\n4. Buscar tarea\n5. Ver todas las tareas\nSelecciona una opción: "))
+            if opcionTareas == 1:
+                descripcion = input("Descripción de la tarea: ")
+                prioridad = int(input("Prioridad de la tarea (1-5): "))
+                crearTarea(tareas, descripcion, prioridad)
+            elif opcionTareas == 2:
+                descripcion = input("Descripción de la tarea a completar: ")
+                completarTarea(tareas, descripcion)
+            elif opcionTareas == 3:
+                descripcion = input("Descripción de la tarea a eliminar: ")
+                eliminarTarea(tareas, descripcion)
+            elif opcionTareas == 4:
+                patron = input("Ingrese un patrón para buscar: ")
+                buscarTarea(tareas, patron)
+            elif opcionTareas == 5:
+                print("\nLista de todas las tareas:")
+                for tarea in tareas:
+                    estado = "Completa" if tarea["completa"] else "Incompleta"
+                    print(f"- {tarea['descripcion']} (Prioridad: {tarea['prioridad']}) - {estado}")
+
 
         elif opcionMenuPrincipal == -1:
             print("\nSaliendo del programa...")
