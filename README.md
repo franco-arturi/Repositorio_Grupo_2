@@ -1,7 +1,7 @@
 # Repositorio_Grupo_2
 Trabajo Practico Obligatorio
 
-### Proyecto de Gestor de Tareas
+### Proyecto de Organizacion de Estudio
 
 ### Integrantes
 
@@ -18,4 +18,4 @@ Gestion de historiales.<br>
 Gestion de usuarios.<br>
 Manejo de excepsiones.<br>
 Generacion de reportes.<br>
-¿Interfaz de usuario?
+
