@@ -164,7 +164,7 @@ def agregarEvento(eventos):
     print("\nEvento agregado exitosamente.")
 
 def tiempoRestanteEventos(eventos):
-    # Muestra el tiempo restante para los eventos programados.
+    # Muestra el tiempo restante para los eventos programados. Parametro es la lista de eventos.
     fechaActual = d.datetime.now()
     print("\nTiempo restante para los eventos:")
     for evento in eventos:
