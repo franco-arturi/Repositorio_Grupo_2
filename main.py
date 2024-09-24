@@ -6,7 +6,6 @@ import re
 #-----------------------------------------------------------------------------------------------------
 
 #Tecnica Pomodoro
-
 def pomodoro(ciclos):
     #Input es la cantidad de ciclos a de 25 minutos de estudio y 5 de descanso.
     for i in range(ciclos):
@@ -39,7 +38,7 @@ def crearTarea(tareas, descripcion, prioridad):
 
 def eliminarTarea(tareas, descripcion):
     # Elimina una tarea buscandola por su descripción, en la lista de tareas.
-    tareaFiltrada = list(filter(lambda t: t['descripcion'] == descripcion, tareas))
+    tareaFiltrada = list(filter(lambda t: t['descripcion'] == descripcion, tareas)) #Filtra las tareas para eliminarla.
     if tareaFiltrada:
         tareas.remove(tareaFiltrada[0])
         print(f"\nTarea '{descripcion}' eliminada con éxito.")
@@ -48,7 +47,8 @@ def eliminarTarea(tareas, descripcion):
 
 def completarTarea(tareas, descripcion):
     # Marca una tarea como completa
-    tarea = next(filter(lambda t: t['descripcion'] == descripcion, tareas), None)
+    # Agarra la variable t y la compara con descripcion 
+    tarea = next(filter(lambda t: t['descripcion'] == descripcion, tareas), None) #El next devuelve el primer elemento que encuentre
     if tarea:
         tarea['completa'] = True
         print(f"\nTarea '{descripcion}' marcada como completa.")
@@ -57,7 +57,7 @@ def completarTarea(tareas, descripcion):
 
 def buscarTarea(tareas, patron):
     # Busca tareas que coincidan con un patrón específico
-    patronCompilado = re.compile(patron, re.IGNORECASE)
+    patronCompilado = re.compile(patron, re.IGNORECASE)# Hace que no detecte mayuscula o miniscula
     tareasEncontradas = list(filter(lambda t: patronCompilado.search(t['descripcion']), tareas))
     if tareasEncontradas:
         print("\nTareas encontradas:")
@@ -208,7 +208,7 @@ def crearCuestionario(diccionario):
         print(f"\nCreando pregunta {i + 1}:")
         pregunta = input("Escribe la pregunta: ")
         print("Nota: Solo se permiten 3 opciones de respuesta.")
-        opciones = [input(f"Opción {j + 1}: ") for j in range(3)]
+        opciones = [input(f"Opción {j + 1}: ") for j in range(3)] #LISTA COMP.
         correcta = int(input("¿Cuál es la opción correcta (1, 2 o 3)? "))
         cuestionario.append({"pregunta": pregunta, "opciones": opciones, "correcta": correcta})
     
