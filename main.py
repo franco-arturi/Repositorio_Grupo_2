@@ -208,7 +208,7 @@ def crearCuestionario(diccionario):
         print(f"\nCreando pregunta {i + 1}:")
         pregunta = input("Escribe la pregunta: ")
         print("Nota: Solo se permiten 3 opciones de respuesta.")
-        opciones = [input(f"Opción {j + 1}: ") for j in range(3)] #LISTA COMP.
+        opciones = [input(f"Opción {j + 1}: ") for j in range(3)] 
         correcta = int(input("¿Cuál es la opción correcta (1, 2 o 3)? "))
         cuestionario.append({"pregunta": pregunta, "opciones": opciones, "correcta": correcta})
     
