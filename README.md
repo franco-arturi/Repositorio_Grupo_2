@@ -21,4 +21,7 @@ Generacion de reportes.<br>
 <br>
 Etapa 80%<br>
 Agregar base de datos para cada usuario.<br>
-Verificacion de contraseñas<br>
+Validacion de contraseñas<br>
+Filtrar tareas por estado y prioridad<br>
+Importacion de tareas json<br>
+Historial de tareas completadas<br>
