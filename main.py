@@ -57,8 +57,10 @@ def completarTarea(tareas, descripcion):
 
 def buscarTarea(tareas, patron):
     # Busca tareas que coincidan con un patrón específico
-    patronCompilado = re.compile(patron, re.IGNORECASE)# Hace que no detecte mayuscula o miniscula
-    tareasEncontradas = list(filter(lambda t: patronCompilado.search(t['descripcion']), tareas))
+    patronCompilado = re.compile(patron, re.IGNORECASE) #Evita el key sensitive 
+    #Esto es una lista por comprension. Va a iterar cada elemento de la lista y el elemtno se asigna a la 
+    #variable tarea. Usa el search en patron para encontrar una coincidencia en la descripcion.
+    tareasEncontradas = [tarea for tarea in tareas if patronCompilado.search(tarea['descripcion'])] #Si el patron coincide la tarea se agrega a tareasEncontradas.
     if tareasEncontradas:
         print("\nTareas encontradas:")
         for tarea in tareasEncontradas:
