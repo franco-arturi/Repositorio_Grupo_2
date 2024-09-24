@@ -3,7 +3,7 @@ import time
 import re
 
 # FUNCIONES
-
+#-----------------------------------------------------------------------------------------------------
 
 #Tecnica Pomodoro
 
@@ -238,7 +238,7 @@ def ejecutarCuestionario(cuestionario):
             print("Incorrecto")
     print(f"\nTu puntuación final es: {puntuacion}/{len(cuestionario)}")
 
-
+#----------------------------------------------------------------------------------------------------
 
 # DATOS
 RED = "\033[31m"  # Rojo
