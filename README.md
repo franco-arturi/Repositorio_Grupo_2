@@ -25,3 +25,4 @@ Validacion de contraseñas<br>
 Filtrar tareas por estado y prioridad<br>
 Importacion de tareas json<br>
 Historial de tareas completadas<br>
+Cambiar permisos de los usuarios<br>
