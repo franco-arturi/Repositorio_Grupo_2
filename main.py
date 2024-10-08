@@ -221,7 +221,8 @@ def crearCuestionario(diccionario):
 def mostrarPregunta(pregunta, opciones):
     # Muestra una pregunta del cuestionario con sus opciones
     print(f"\n{pregunta}")
-    for i, opcion in enumerate(opciones, 1):
+    for i, opcion in enumerate(opciones, 1): #permite iterar sobre una secuencia l mismo tiempo y
+        # obtener tanto el índice de cada elemento como el propio elemento
         print(f"{i}. {opcion}")
     eleccion = int(input("Selecciona la opción correcta (1, 2 o 3): "))
     return eleccion
