@@ -16,9 +16,9 @@ def pomodoro(ciclos):
             timer(5)  # 5 minutos de descanso
     print("Todas las sesiones de Pomodoro finalizadas!")
 
-def timer(tiempo):
+def timer(minutosParametro):
     #Se ingresa la cantidad de tiempo para el timer
-    for i in range(tiempo * 60, 0, -1):
+    for i in range(minutosParametro * 60, 0, -1):
         segundos = int(i % 60)
         minutos = int(i / 60) % 60
         horas = i // 3600
@@ -70,24 +70,24 @@ def buscarTarea(tareas, patron):
 
 
 # Usuarios
-def cargarUsuario(listado):
+def cargarUsuario(listaUsuarios):
     #Input, lista de usuarios. Se crea un nuevo usuario con su nombre y contraseña ingresadas por teclado.
     nombre = input("\nIngrese el nombre del nuevo usuario: ")
-    if any(usuario[0] == nombre for usuario in listado):
+    if any(usuario[0] == nombre for usuario in listaUsuarios):
         #Se chequea que el nombre de usuario no exista.
         print("\nError: El nombre de usuario ya existe.")
         return
     
     clave = int(input("Ingrese clave numérica: "))
     usuario = [nombre, clave]
-    listado.append(usuario)
+    listaUsuarios.append(usuario)
     print("\nUsuario creado exitosamente.")
     usuarioActual[:] = usuario
 
-def cambiarUsuario(listado, usuarioActual):
+def cambiarUsuario(listaUsuarios, usuarioActual):
     # Cambia al usuario actual ingresando nombre y contraseña.
     nuevoUsuario = input("\nIngrese nombre de usuario: ")
-    for usuario in listado:
+    for usuario in listaUsuarios:
         if nuevoUsuario == usuario[0]:
             contraseña = int(input("Ingrese contraseña: "))
             if contraseña == usuario[1]:
@@ -98,11 +98,11 @@ def cambiarUsuario(listado, usuarioActual):
             return
     print("\nUsuario no encontrado.")
 
-def eliminarUsuario(listado, nombre, contraseña):
+def eliminarUsuario(listaUsuarios, nombre, contraseña):
     # Elimina un usuario si se proporciona el nombre y contraseña correctos.
-    for usuario in listado:
+    for usuario in listaUsuarios:
         if nombre == usuario[0] and contraseña == usuario[1]:
-            listado.remove(usuario)
+            listaUsuarios.remove(usuario)
             if usuario == usuarioActual:
                 usuarioActual[:] = [0, 0]
             print(f"\nUsuario {nombre} eliminado con éxito.")
@@ -134,11 +134,11 @@ def mostrarCalendario(dia, mes, año):
                 print(f"{GREEN}{i + 1}{RESET}".center(15))
             contador = 0
 
-def ordenarEventos(eventos):
+def ordenarEventos(listaEventos):
     # Ordena los eventos por fecha, el input es la lista de eventos.
-    eventos.sort(key=lambda x: (x[2], x[1], x[0]))
+    listaEventos.sort(key=lambda x: (x[2], x[1], x[0]))
 
-def agregarEvento(eventos):
+def agregarEvento(listaEventos):
     # Agrega un nuevo evento, asegurando que la fecha no sea del pasado.
     evento = []
     diaEvento = int(input("\nIngrese día del evento: "))
@@ -161,15 +161,15 @@ def agregarEvento(eventos):
     evento.append(mesEvento)
     evento.append(añoEvento)
     evento.append(input("Ingrese descripción del evento: "))
-    eventos.append(evento)
-    ordenarEventos(eventos)
+    listaEventos.append(evento)
+    ordenarEventos(listaEventos)
     print("\nEvento agregado exitosamente.")
 
-def tiempoRestanteEventos(eventos):
+def tiempoRestanteEventos(listaEventos):
     # Muestra el tiempo restante para los eventos programados. Parametro es la lista de eventos.
     fechaActual = d.datetime.now()
     print("\nTiempo restante para los eventos:")
-    for evento in eventos:
+    for evento in listaEventos:
         fechaEvento = d.datetime(evento[2], evento[1], evento[0])
         diferencia = fechaEvento - fechaActual
         
@@ -182,12 +182,12 @@ def tiempoRestanteEventos(eventos):
         else:
             print(f"- El evento '{evento[3]}' ya ha pasado.")
 
-def mostrarEventos(eventos):
+def mostrarEventos(listaEventos):
     # Muestra todos los eventos programados, con colores según la fecha.
     fechaActual = d.datetime.now()
-    if eventos:
+    if listaEventos:
         print("\nEventos programados:")
-        for evento in eventos:
+        for evento in listaEventos:
             fechaEvento = d.datetime(evento[2], evento[1], evento[0])
             fechaEventoStr = f"{evento[0]}/{evento[1]}/{evento[2]}"
             
@@ -199,7 +199,7 @@ def mostrarEventos(eventos):
         print("\nNo hay eventos programados.")
 
 # Cuestionarios
-def crearCuestionario(diccionario):
+def crearCuestionario(diccionarioCUestionarios):
     # Se ingresa un diccionario de los cuestionarios, donde vamos a guardar el cuestionario creado.
     # Ingresamo tematica del cuestionario, cantidad de preguntas y los detalles de cada una.
     nombreCuestionario=input("Ingrese tematica del cuestionario.")    
@@ -215,7 +215,7 @@ def crearCuestionario(diccionario):
         cuestionario.append({"pregunta": pregunta, "opciones": opciones, "correcta": correcta})
     
     print("\nCuestionario creado exitosamente.")
-    diccionario[nombreCuestionario]=cuestionario
+    diccionarioCUestionarios[nombreCuestionario]=cuestionario
     return 
 
 def mostrarPregunta(pregunta, opciones):
