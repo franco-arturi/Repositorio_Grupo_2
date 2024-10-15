@@ -7,7 +7,11 @@ import datetime as d
 
 
 def mostrarCalendario(dia, mes, año):
-    # Muestra el calendario del mes y año especificados, con el input de la fecha del dia.
+    """
+    Objetivo: Se imprime un calendario en la terminal del mes actual y marcando en rojo los dias pasados y en verde los dias por ocurrir.
+    Parametros de Entrada: Ingresa el dia, mes y año actual.
+    Parametros de Salida: No hay un return, solo se imprime el calendario.
+    """
     meses = [["Enero", 31], ["Febrero", 28], ["Marzo", 31], ["Abril", 30], ["Mayo", 31],
              ['Junio', 30], ['Julio', 31], ['Agosto', 31], ["Septiembre", 30], ['Octubre', 31],
              ["Noviembre", 30], ['Diciembre', 31]]
@@ -31,10 +35,19 @@ def mostrarCalendario(dia, mes, año):
             contador = 0
 
 def ordenarEventos(listaEventos):
-    # Ordena los eventos por fecha, el input es la lista de eventos.
+    """
+    Objetivo: Se ordena la lista de eventos en base a la fecha mas proxima.
+    Parametros de Entrada: Se ingresa la lista de eventos.
+    Parametros de Salida: No hay return, solo se actualiza la lista de eventos.
+    """
     listaEventos.sort(key=lambda x: (x[2], x[1], x[0]))
 
 def agregarEvento(listaEventos):
+    """
+    Objetivos: Se agrega un nuevo evento a la lista de eventos.
+    Parametros de Entrada: Se ingresa la lista de eventos.
+    Parametros de Salida: No hay un return, solo se actualiza la lista de eventos.
+    """
     # Agrega un nuevo evento, asegurando que la fecha no sea del pasado.
     evento = []
     diaEvento = int(input("\nIngrese día del evento: "))
@@ -62,6 +75,11 @@ def agregarEvento(listaEventos):
     print("\nEvento agregado exitosamente.")
 
 def tiempoRestanteEventos(listaEventos):
+    """
+    Objetivos: Se muestra por pantalla cuanto tiempo restante hay hasta que suceda el evento.
+    Parametros de Entrada: Ingresamos la lista de eventos.
+    Parametros de Salida: Nos hay return, se imprime por la terminal informacion.
+    """
     # Muestra el tiempo restante para los eventos programados. Parametro es la lista de eventos.
     fechaActual = d.datetime.now()
     print("\nTiempo restante para los eventos:")
@@ -79,6 +97,11 @@ def tiempoRestanteEventos(listaEventos):
             print(f"- El evento '{evento[3]}' ya ha pasado.")
 
 def mostrarEventos(listaEventos):
+    """
+    Objetivo: Se muestran los eventos guardados, en rojo si ya pasaron o en verde si estan por suceder.
+    Parametros de Entrada: Ingresa la lista de eventos.
+    Parametros de Salida: No hay un return, se imprime informacion por la terminal.
+    """
     # Muestra todos los eventos programados, con colores según la fecha.
     fechaActual = d.datetime.now()
     if listaEventos:
