@@ -16,14 +16,14 @@ def menuTareas():
     while opcionTareas != -1:
         opcionTareas = int(input("\n 1. Crear tarea\n 2. Completar tarea\n 3. Eliminar tarea\n 4. Buscar tarea\n 5. Ver todas las tareas\n-1. Salir\nSelecciona una opción: "))
         if opcionTareas == 1:
-            descripcion = input("Descripción de la tarea: ")
+            descripcion = (input("Descripción de la tarea: ")).title()
             prioridad = int(input("Prioridad de la tarea (1-5): "))
             Tareas.crearTarea(tareas, descripcion, prioridad)
         elif opcionTareas == 2:
-            descripcion = input("Descripción de la tarea a completar: ")
+            descripcion = (input("Descripción de la tarea a completar: ")).title()
             Tareas.completarTarea(tareas, descripcion)
         elif opcionTareas == 3:
-            descripcion = input("Descripción de la tarea a eliminar: ")
+            descripcion = (input("Descripción de la tarea a eliminar: ")).title()
             Tareas.eliminarTarea(tareas, descripcion)
         elif opcionTareas == 4:
             patron = input("Ingrese un patrón para buscar: ")
@@ -37,6 +37,7 @@ def menuTareas():
 def menuAdministracionUsuarios():
     opcionUsuarios = 0
     while opcionUsuarios != -1 and usuarioActual != [0,0]:
+        #Verificamos que el usario actual no sea vacio para volver al menu de inicio cuando eliminamos nuestro usuario actual
         opcionUsuarios = int(input("\n1. Eliminar usuario\n2. Cambiar usuario\n-1. Volver\nSelecciona una opción: "))
         if opcionUsuarios == 1:
             nombre = input("\nIngrese nombre de usuario a eliminar: ")
@@ -73,7 +74,7 @@ def menuCuestionario():
             print("\nCuestionarios disponibles:")
             for cuest in cuestionarios.keys():
                 print(cuest)
-            nom = input("Ingrese nombre de cuestionario a ejecutar: ")
+            nom = (input("Ingrese nombre de cuestionario a ejecutar: ")).title()
             
             cuestionario = cuestionarios.get(nom)
             if cuestionario != None:
@@ -85,10 +86,10 @@ def menuCuestionario():
 DIAACTUAL = d.date.today().day # Dia de hoy.
 MESACTUAL = d.date.today().month # Mes actual.
 AÑOACTUAL = d.date.today().year # Año actual.
-eventos = [[9, 9, 2024, "Examen de Programación"],[10, 9, 2024, "Examen de Química"], [12, 9, 2024, "Examen de Física"],[28, 9, 2024, "Examen de matematica"]]
+eventos = {"Examen de Programación":[9, 9, 2024] ,"Examen de Química":[10, 9, 2024] , "Examen de Física":[12, 9, 2024] ,"Examen de matematica":[28, 9, 2024] }
 # Matriz de eventos(dia, mes, año, descripcion)
-usuarios = [["usuario1", 1234], ["usuario2", 5678]]
-# Matriz de usuarios(nombre, contraseña)
+usuarios = {"usuario1": 1234, "usuario2": 5678}
+# Diccionario de usuarios(nombre : contraseña)
 usuarioActual = [0, 0]
 # Usuario actual
 cuestionarios = {'Matematica': [{'pregunta': '1+1', 'opciones': ['2', '4', '1'], 'correcta': 1}, {'pregunta': '5*5', 'opciones': ['25', '30', '20'], 'correcta': 1}, {'pregunta': '2**2', 'opciones': ['4', '6', '12'], 'correcta': 1}]}
@@ -123,6 +124,7 @@ def main():
                 menuTareas()             
             elif opcionMenuPrincipal == -1:
                 print("\nSaliendo del programa...")
+
 
 
 main()

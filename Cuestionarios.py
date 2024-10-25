@@ -8,7 +8,7 @@ def crearCuestionario(diccionarioCUestionarios):
 
     
     # Ingresamo tematica del cuestionario, cantidad de preguntas y los detalles de cada una.
-    nombreCuestionario=input("Ingrese tematica del cuestionario.")    
+    nombreCuestionario=(input("Ingrese tematica del cuestionario.")).title()    
     cuestionario = []
     numPreguntas = int(input("\n¿Número de preguntas para el cuestionario? "))
     
