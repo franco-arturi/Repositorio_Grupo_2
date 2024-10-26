@@ -1,17 +1,10 @@
 RED = "\033[31m"  # Rojo
 GREEN = "\033[32m"  # Verde
-RESET = "\033[0m"  # Este reset reestablece el color.
+RESET = "\033[0m"  # Reset del color
 
 import datetime as d
 
-
-
 def mostrarCalendario(dia, mes, año):
-    """
-    Objetivo: Se imprime un calendario en la terminal del mes actual y marcando en rojo los dias pasados y en verde los dias por ocurrir.
-    Parametros de Entrada: Ingresa el dia, mes y año actual.
-    Parametros de Salida: No hay un return, solo se imprime el calendario.
-    """
     meses = [["Enero", 31], ["Febrero", 28], ["Marzo", 31], ["Abril", 30], ["Mayo", 31],
              ['Junio', 30], ['Julio', 31], ['Agosto', 31], ["Septiembre", 30], ['Octubre', 31],
              ["Noviembre", 30], ['Diciembre', 31]]
@@ -21,10 +14,8 @@ def mostrarCalendario(dia, mes, año):
     for i in range(meses[mes - 1][1]):
         if contador < 6:
             if i + 1 < dia:
-                # El dia se imprime en rojo si ya paso. Reset deja el color original de la fuente.
                 print(f"{RED}{i + 1}{RESET}".center(15), end="")
             else:
-                # El dia se imprime en verde si no paso. Reset deja el color original de la fuente.
                 print(f"{GREEN}{i + 1}{RESET}".center(15), end="")
             contador += 1
         else:
@@ -34,23 +25,16 @@ def mostrarCalendario(dia, mes, año):
                 print(f"{GREEN}{i + 1}{RESET}".center(15))
             contador = 0
 
-def ordenarEventos(diccionarioEventos):
+def ordenarEventos(listaEventos):
     """
-    Objetivo: Se ordena un diccionario de eventos en base a la fecha más proxima.
-    Parametros de Entrada: Se ingresa el diccionario de eventos.
-    Parametros de Salida: Se devuelve una copia del diccionario pero ordenado.
+    Ordena los eventos en la lista en base a la fecha más próxima.
     """
-    eventos_ordenados = dict(sorted(diccionarioEventos.items(), key=lambda item: (item[1][2], item[1][1], item[1][0])))
-    return eventos_ordenados
+    listaEventos.sort(key=lambda evento: (evento["año"], evento["mes"], evento["dia"]))
 
-def agregarEvento(diccionarioEventos):
+def agregarEvento(listaEventos):
     """
-    Objetivos: Se agrega un nuevo evento al diccionario de eventos.
-    Parametros de Entrada: Se ingresa el diccionario de eventos.
-    Parametros de Salida: No hay un return, solo se actualiza el diccionario de eventos.
+    Agrega un nuevo evento a la lista de eventos, asegurando que la fecha no sea en el pasado.
     """
-    # Agrega un nuevo evento, asegurando que la fecha no sea del pasado.
-    fecha = []
     diaEvento = int(input("\nIngrese día del evento: "))
     mesEvento = int(input("Ingrese mes del evento: "))
     añoEvento = int(input("Ingrese año del evento: "))
@@ -67,53 +51,53 @@ def agregarEvento(diccionarioEventos):
         print("\nError: No se puede agregar un evento en el pasado.")
         return
     
-    fecha.append(diaEvento)
-    fecha.append(mesEvento)
-    fecha.append(añoEvento)
-    desc=(input("Ingrese descripción del evento: "))
-    diccionarioEventos[desc]=fecha
-    diccionarioEventos=ordenarEventos(diccionarioEventos)
+    descripcion = input("Ingrese descripción del evento: ")
+    
+    # Crear diccionario del nuevo evento
+    nuevo_evento = {
+        "descripcion": descripcion,
+        "dia": diaEvento,
+        "mes": mesEvento,
+        "año": añoEvento
+    }
+    
+    listaEventos.append(nuevo_evento)
+    ordenarEventos(listaEventos)  # Ordenar eventos al agregar uno nuevo
     print("\nEvento agregado exitosamente.")
 
-def tiempoRestanteEventos(diccionarioEventos):
+def tiempoRestanteEventos(listaEventos):
     """
-    Objetivos: Se muestra por pantalla cuanto tiempo restante hay hasta que suceda el evento.
-    Parametros de Entrada: Ingresamos el diccionario de eventos.
-    Parametros de Salida: Nos hay return, se imprime por la terminal informacion.
+    Muestra cuánto tiempo queda para cada evento programado en la lista de eventos.
     """
-    # Muestra el tiempo restante para los eventos programados. Parametro es el diccionario de eventos.
     fechaActual = d.datetime.now()
     print("\nTiempo restante para los eventos:")
-    for desc, evento in diccionarioEventos.items():
-        fechaEvento = d.datetime(evento[2], evento[1], evento[0])
+    for evento in listaEventos:
+        fechaEvento = d.datetime(evento["año"], evento["mes"], evento["dia"])
         diferencia = fechaEvento - fechaActual
         
         if diferencia.days == 1:
-            print(f"- El día siguiente es el evento '{desc}'.")
+            print(f"- El día siguiente es el evento '{evento['descripcion']}'.")
         elif diferencia.days > 1:
-            print(f"- Faltan {diferencia.days} días para el evento '{desc}'.")
+            print(f"- Faltan {diferencia.days} días para el evento '{evento['descripcion']}'.")
         elif diferencia.days == 0:
-            print(f"- Hoy es el evento '{desc}'.")
+            print(f"- Hoy es el evento '{evento['descripcion']}'.")
         else:
-            print(f"- El evento '{desc}' ya ha pasado.")
+            print(f"- El evento '{evento['descripcion']}' ya ha pasado.")
 
-def mostrarEventos(diccionarioEventos):
+def mostrarEventos(listaEventos):
     """
-    Objetivo: Se muestran los eventos guardados, en rojo si ya pasaron o en verde si estan por suceder.
-    Parametros de Entrada: Ingresa el diccionario de eventos.
-    Parametros de Salida: No hay un return, se imprime informacion por la terminal.
+    Muestra todos los eventos, en rojo si ya pasaron o en verde si están por ocurrir.
     """
-    # Muestra todos los eventos programados, con colores según la fecha.
     fechaActual = d.datetime.now()
-    if diccionarioEventos:
+    if listaEventos:
         print("\nEventos programados:")
-        for desc,evento in diccionarioEventos.items():
-            fechaEvento = d.datetime(evento[2], evento[1], evento[0])
-            fechaEventoStr = f"{evento[0]}/{evento[1]}/{evento[2]}"
+        for evento in listaEventos:
+            fechaEvento = d.datetime(evento["año"], evento["mes"], evento["dia"])
+            fechaEventoStr = f"{evento['dia']}/{evento['mes']}/{evento['año']}"
             
             if fechaEvento < fechaActual:  # Evento pasado.
-                print(f"{RED}- {fechaEventoStr}: {desc} (Este evento ya paso){RESET}")
+                print(f"{RED}- {fechaEventoStr}: {evento['descripcion']} (Este evento ya pasó){RESET}")
             else:  # Evento futuro.
-                print(f"{GREEN}- {fechaEventoStr}: {desc} (Este evento aun no paso){RESET}")
+                print(f"{GREEN}- {fechaEventoStr}: {evento['descripcion']} (Este evento aún no ha pasado){RESET}")
     else:
         print("\nNo hay eventos programados.")
