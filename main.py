@@ -19,10 +19,11 @@ def cargar_datos():
     except (FileNotFoundError, json.JSONDecodeError):
         # Crear estructura vacía si el archivo no existe o está vacío
         datos = {
-            "usuarios": {},
-            "eventos": [],
-            "cuestionarios": {},
-            "tareas": []
+            "admin": {"eventos": [],
+                        "cuestionarios": {},
+                        "tareas": [],
+                        "contraseña":11111}
+            
         }
         # Esto guarda la estructura inicial en el archivo
         guardar_datos(datos)
@@ -45,10 +46,8 @@ def registrar_actividad(mensaje):
 datos = cargar_datos()
 
 # Variables globales para datos
-usuarios = datos["usuarios"]
-eventos = datos["eventos"]
-cuestionarios = datos["cuestionarios"]
-tareas = datos["tareas"]
+
+
 
 # MENUS FUNCIONES
 
@@ -69,29 +68,29 @@ def menuTareas():
                 prioridad = int(input("Prioridad de la tarea (1-5): "))
                 if not (1 <= prioridad <= 5):
                     print("Error: La prioridad debe ser un número entre 1 y 5.")
-            Tareas.crearTarea(tareas, descripcion, prioridad)
+            Tareas.crearTarea(datos, descripcion, prioridad,usuarioActual[0])
             guardar_datos(datos)  # Guardar después de crear una tarea
             registrar_actividad(f"Creó tarea: {descripcion} con prioridad {prioridad}.")
         
         elif opcionTareas == 2:
             descripcion = input("Descripción de la tarea a completar: ").title()
-            Tareas.completarTarea(tareas, descripcion)
+            Tareas.completarTarea(datos, descripcion,usuarioActual[0])
             guardar_datos(datos)  # Guardar después de completar una tarea
             registrar_actividad(f"Completó tarea: {descripcion}.")
         
         elif opcionTareas == 3:
             descripcion = input("Descripción de la tarea a eliminar: ").title()
-            Tareas.eliminarTarea(tareas, descripcion)
+            Tareas.eliminarTarea(datos, descripcion,usuarioActual[0])
             guardar_datos(datos)  # Guardar después de eliminar tarea
             registrar_actividad(f"Eliminó tarea: {descripcion}.")
         
         elif opcionTareas == 4:
             patron = input("Ingrese un patrón para buscar: ")
-            Tareas.buscarTarea(tareas, patron)
+            Tareas.buscarTarea(datos, patron,usuarioActual[0])
         
         elif opcionTareas == 5:
             print("\nLista de todas las tareas:")
-            for tarea in tareas:
+            for tarea in datos[usuarioActual[0]]["tareas"]:
                 estado = "Completa" if tarea["completa"] else "Incompleta"
                 print(f"- {tarea['descripcion']} (Prioridad: {tarea['prioridad']}) - {estado}")
 
@@ -104,11 +103,11 @@ def menuAdministracionUsuarios():
         if opcionUsuarios == 1:
             nombre = input("\nIngrese nombre de usuario a eliminar: ")
             clave = int(input("Ingrese clave numérica del usuario a eliminar: "))
-            Usuarios.eliminarUsuario(usuarios, nombre, clave, usuarioActual)
+            Usuarios.eliminarUsuario(datos, nombre, clave, usuarioActual)
             guardar_datos(datos)  # Guardar después de eliminar usuario
             registrar_actividad(f"Eliminó usuario: {nombre}.")
         elif opcionUsuarios == 2:
-            Usuarios.cambiarUsuario(usuarios, usuarioActual)
+            Usuarios.cambiarUsuario(datos, usuarioActual)
             guardar_datos(datos)  # Guardar después de cambiar usuario
             registrar_actividad(f"Cambió a usuario: {usuarioActual[0]}.")
 
@@ -120,14 +119,14 @@ def menuCalendario():
             Eventos.mostrarCalendario(DIAACTUAL, MESACTUAL, AÑOACTUAL)
             registrar_actividad("Mostró el calendario.")
         elif opcionCalendario == 2:
-            Eventos.agregarEvento(eventos)
+            Eventos.agregarEvento(datos,usuarioActual[0])
             guardar_datos(datos)  # Guardar después de agregar evento
             registrar_actividad("Agregó un evento.")
         elif opcionCalendario == 3:
-            Eventos.tiempoRestanteEventos(eventos)
+            Eventos.tiempoRestanteEventos(datos,usuarioActual[0])
             registrar_actividad("Consultó tiempo restante de eventos.")
         elif opcionCalendario == 4:
-            Eventos.mostrarEventos(eventos)
+            Eventos.mostrarEventos(datos,usuarioActual[0])
             registrar_actividad("Mostró los eventos.")
 
 def menuCuestionario():
@@ -137,20 +136,20 @@ def menuCuestionario():
         
         if opcionCuestionario == 1:
             # Si el usuario elige crear un cuestionario
-            Cuestionarios.crearCuestionario(cuestionarios)  # Llama a la función para crear un nuevo cuestionario
+            Cuestionarios.crearCuestionario(datos,usuarioActual[0])  # Llama a la función para crear un nuevo cuestionario
             guardar_datos(datos)  # Guarda los datos después de crear el cuestionario
             registrar_actividad("Creó un cuestionario.")  # Registra la actividad
 
         elif opcionCuestionario == 2:
             # Si el usuario elige ejecutar un cuestionario
             print("\nCuestionarios disponibles:")  # Muestra los cuestionarios disponibles
-            for cuest in cuestionarios.keys():
+            for cuest in datos[usuarioActual[0]]["cuestionarios"].keys():
                 print(cuest)  # Imprime el nombre de cada cuestionario
             
             # Solicita al usuario el nombre del cuestionario a ejecutar
             nom = input("Ingrese nombre de cuestionario a ejecutar: ").title()  # Normaliza el nombre a formato título
             
-            cuestionario = cuestionarios.get(nom)  # Busca el cuestionario por su nombre
+            cuestionario = datos[usuarioActual[0]]["cuestionarios"].get(nom)  # Busca el cuestionario por su nombre
             
             if cuestionario is not None:  # Verifica si el cuestionario existe
                 Cuestionarios.ejecutarCuestionario(cuestionario)  # Ejecuta el cuestionario
@@ -172,10 +171,10 @@ def main():
         if usuarioActual == [0, 0]:
             opcionUsuario = int(input("\n 1. Ingresar usuario\n 2. Crear usuario\n-1. Salir\nSelecciona una opción: "))
             if opcionUsuario == 1:
-                Usuarios.cambiarUsuario(usuarios, usuarioActual)
+                Usuarios.cambiarUsuario(datos, usuarioActual)
                 guardar_datos(datos)
             elif opcionUsuario == 2:
-                Usuarios.cargarUsuario(usuarios, usuarioActual)
+                Usuarios.cargarUsuario(datos, usuarioActual)
                 guardar_datos(datos)
         else:
             opcionMenuPrincipal = int(input("\n 1. Administrar usuarios\n 2. Calendario y eventos\n 3. Cuestionarios\n 4. Técnica Pomodoro\n 5. Administrar tareas\n-1. Volver al menú anterior\nSelecciona una opción: "))

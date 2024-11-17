@@ -15,7 +15,12 @@ def cargarUsuario(diccionarioUsuarios,usuActual):
     else:
         clave = int(input("Ingrese clave numérica: "))
         
-        diccionarioUsuarios[nombre]=clave
+        diccionarioUsuarios[nombre]={
+                                    "eventos": [],
+                                    "cuestionarios": {},
+                                    "tareas": [],
+                                    "contrase\u00f1a": clave
+    }
         print("\nUsuario creado exitosamente.")
         usuActual[:]=[nombre,clave]
 
@@ -29,11 +34,11 @@ def cambiarUsuario(diccionarioUsuarios, usuActual):
     
     if nuevoUsuario in diccionarioUsuarios:
         contraseña = int(input("Ingrese contraseña: "))
-        if diccionarioUsuarios[nuevoUsuario] == contraseña:
+        if diccionarioUsuarios[nuevoUsuario]["contraseña"] == contraseña:
             usuActual[:] = [nuevoUsuario,contraseña]
             print("\nUsuario cambiado exitosamente.")
         else:
-            print("\nContraseña incorrecta.")
+            print("\nContraseña incorrecta .")
         return
     print("\nUsuario no encontrado.")
 
@@ -44,7 +49,7 @@ def eliminarUsuario(diccionarioUsuarios, nombre, contraseña, usuActual):
     usuario actual.  
     Parametros de Salida: No hay un return solo se borra del diccionario de usuarios el indicado.
     """
-    if nombre in diccionarioUsuarios  and diccionarioUsuarios[nombre] == contraseña :
+    if nombre in diccionarioUsuarios  and diccionarioUsuarios[nombre]["contraseña"] == contraseña :
             del diccionarioUsuarios[nombre]
             if nombre == usuActual[0]:
                 usuActual[:] = [0, 0]

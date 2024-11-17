@@ -1,6 +1,6 @@
 import re
 
-def crearTarea(tareas, descripcion, prioridad): 
+def crearTarea(tareas, descripcion, prioridad,usuario): 
     """
     Objetivos:Verificar que los datos sean del tipo correcto y crear una nueva tarea.
     Parametros de Entrada: Entra la lista de tareas, la descripcion de la nueva tarea y la prioridad de esta.
@@ -9,26 +9,26 @@ def crearTarea(tareas, descripcion, prioridad):
     # Crea una nueva tarea con descripción y prioridad.
     if isinstance(descripcion, str) and isinstance(prioridad, int):
         nuevaTarea = {"descripcion": descripcion, "prioridad": prioridad, "completa": False}
-        tareas.append(nuevaTarea)
+        tareas[usuario]["tareas"].append(nuevaTarea)
         print(f"\nTarea '{descripcion}' creada con prioridad {prioridad}.")
     else:
         print("\nError: Descripción debe ser una cadena de texto y la prioridad un entero.")
 
-def eliminarTarea(tareas, descripcion):
+def eliminarTarea(tareas, descripcion,usuario):
     """
     Objetivos: Se elimina una de las tareas existentes.
     Parametros de Entrada: Ingresamos la lista de tareas y la descripcion de la tarea.
     Parametros de Salida: No hay return, pero se actualiza la lista de tareas eliminando la seleccionada.
     """
     # Elimina una tarea buscandola por su descripción, en la lista de tareas.
-    tareaFiltrada = list(filter(lambda t: t['descripcion'] == descripcion, tareas)) #Filtra las tareas para eliminarla.
+    tareaFiltrada = list(filter(lambda t: t['descripcion'] == descripcion, tareas[usuario]["tareas"])) #Filtra las tareas para eliminarla.
     if tareaFiltrada:
-        tareas.remove(tareaFiltrada[0])
+        tareas[usuario]["tareas"].remove(tareaFiltrada[0])
         print(f"\nTarea '{descripcion}' eliminada con éxito.")
     else:
         print(f"\nNo se encontró la tarea con descripción '{descripcion}'.")
 
-def completarTarea(tareas, descripcion):
+def completarTarea(tareas, descripcion,usuario):
     """
     Objetivos: Actualiza el estado de la tarea, completandola.
     Parametros de Entrada: Ingresa la lista de tareas y la descripcion de la tarea a completar.
@@ -36,14 +36,14 @@ def completarTarea(tareas, descripcion):
     """
     # Marca una tarea como completa
     # Agarra la variable t y la compara con descripcion 
-    tarea = next(filter(lambda t: t['descripcion'] == descripcion, tareas), None) #El next devuelve el primer elemento que encuentre
+    tarea = next(filter(lambda t: t['descripcion'] == descripcion, tareas[usuario]["tareas"]), None) #El next devuelve el primer elemento que encuentre
     if tarea:
         tarea['completa'] = True
         print(f"\nTarea '{descripcion}' marcada como completa.")
     else:
         print(f"\nTarea '{descripcion}' no encontrada.")
 
-def buscarTarea(tareas, patron):
+def buscarTarea(tareas, patron,usuario):
     """
     Objetivo: En base a un patron se busca una tarea especifica.
     Parametros de Entrada: Entra la lista de tareas y el patron a buscar en la lista.
@@ -53,7 +53,7 @@ def buscarTarea(tareas, patron):
     patronCompilado = re.compile(patron, re.IGNORECASE) #Evita el key sensitive 
     #Esto es una lista por comprension. Va a iterar cada elemento de la lista y el elemtno se asigna a la 
     #variable tarea. Usa el search en patron para encontrar una coincidencia en la descripcion.
-    tareasEncontradas = [tarea for tarea in tareas if patronCompilado.search(tarea['descripcion'])] #Si el patron coincide la tarea se agrega a tareasEncontradas.
+    tareasEncontradas = [tarea for tarea in tareas[usuario]["tareas"] if patronCompilado.search(tarea['descripcion'])] #Si el patron coincide la tarea se agrega a tareasEncontradas.
     if tareasEncontradas:
         print("\nTareas encontradas:")
         for tarea in tareasEncontradas:

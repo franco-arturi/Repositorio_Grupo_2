@@ -25,13 +25,13 @@ def mostrarCalendario(dia, mes, año):
                 print(f"{GREEN}{i + 1}{RESET}".center(15))
             contador = 0
 
-def ordenarEventos(listaEventos):
+def ordenarEventos(listaEventos,usuario):
     """
     Ordena los eventos en la lista en base a la fecha más próxima.
     """
     listaEventos.sort(key=lambda evento: (evento["año"], evento["mes"], evento["dia"]))
 
-def agregarEvento(listaEventos):
+def agregarEvento(listaEventos,usuario):
     """
     Agrega un nuevo evento a la lista de eventos, asegurando que la fecha no sea en el pasado.
     """
@@ -61,17 +61,17 @@ def agregarEvento(listaEventos):
         "año": añoEvento
     }
     
-    listaEventos.append(nuevo_evento)
-    ordenarEventos(listaEventos)  # Ordenar eventos al agregar uno nuevo
+    listaEventos[usuario]["eventos"].append(nuevo_evento)
+    ordenarEventos(listaEventos[usuario]["eventos"],usuario)  # Ordenar eventos al agregar uno nuevo
     print("\nEvento agregado exitosamente.")
 
-def tiempoRestanteEventos(listaEventos):
+def tiempoRestanteEventos(listaEventos,usuario):
     """
     Muestra cuánto tiempo queda para cada evento programado en la lista de eventos.
     """
     fechaActual = d.datetime.now()
     print("\nTiempo restante para los eventos:")
-    for evento in listaEventos:
+    for evento in listaEventos[usuario]["eventos"]:
         fechaEvento = d.datetime(evento["año"], evento["mes"], evento["dia"])
         diferencia = fechaEvento - fechaActual
         
@@ -84,14 +84,14 @@ def tiempoRestanteEventos(listaEventos):
         else:
             print(f"- El evento '{evento['descripcion']}' ya ha pasado.")
 
-def mostrarEventos(listaEventos):
+def mostrarEventos(listaEventos,usuario):
     """
     Muestra todos los eventos, en rojo si ya pasaron o en verde si están por ocurrir.
     """
     fechaActual = d.datetime.now()
-    if listaEventos:
+    if listaEventos[usuario]["eventos"]:
         print("\nEventos programados:")
-        for evento in listaEventos:
+        for evento in listaEventos[usuario]["eventos"]:
             fechaEvento = d.datetime(evento["año"], evento["mes"], evento["dia"])
             fechaEventoStr = f"{evento['dia']}/{evento['mes']}/{evento['año']}"
             

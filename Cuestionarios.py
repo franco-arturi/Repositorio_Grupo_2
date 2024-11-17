@@ -1,4 +1,4 @@
-def crearCuestionario(diccionarioCUestionarios):
+def crearCuestionario(diccionarioCUestionarios,usuario):
     """
     Objetivo: Solicitar informacion y crear un cuestionario nuevo.
     Parametros de Entrada: Ingresamos el diccionario usado para contener los diferentes cuestionarios.
@@ -21,7 +21,7 @@ def crearCuestionario(diccionarioCUestionarios):
         cuestionario.append({"pregunta": pregunta, "opciones": opciones, "correcta": correcta})
     
     print("\nCuestionario creado exitosamente.")
-    diccionarioCUestionarios[nombreCuestionario]=cuestionario
+    diccionarioCUestionarios[usuario]["cuestionarios"][nombreCuestionario]=cuestionario
     return 
 
 def mostrarPregunta(pregunta, opciones):
