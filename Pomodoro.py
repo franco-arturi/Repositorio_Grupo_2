@@ -29,3 +29,4 @@ def timer(minutosParametro):
         horas = i // 3600
         print(f"{horas:02}:{minutos:02}:{segundos:02}", end='\r')  
         time.sleep(1)  # Pausa de 1 segundo para simular el tiempo real
+        
