@@ -101,3 +101,4 @@ def mostrarEventos(listaEventos,usuario):
                 print(f"{GREEN}- {fechaEventoStr}: {evento['descripcion']} (Este evento aún no ha pasado){RESET}")
     else:
         print("\nNo hay eventos programados.")
+

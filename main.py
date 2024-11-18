@@ -45,9 +45,6 @@ def registrar_actividad(mensaje):
 # Cargar datos iniciales
 datos = cargar_datos()
 
-# Variables globales para datos
-
-
 
 # MENUS FUNCIONES
 
@@ -190,3 +187,4 @@ def main():
                 menuTareas()
 
 main()
+
