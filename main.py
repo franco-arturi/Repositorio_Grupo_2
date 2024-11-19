@@ -5,60 +5,16 @@ import Pomodoro
 import Cuestionarios
 import Tareas
 import Eventos
+import Archivos
 
 # Nombre del archivo JSON
 ARCHIVO_JSON = 'datos.json'
 ARCHIVO_LOG = 'actividad.log'
 
 # Función para cargar datos desde el archivo JSON
-def cargar_datos():
-    """
-    Objetivo: Se cargan o crean datos del archivo JSON.
-    Parametros de Entrada: La variable global con el nombre del archivo JSON.
-    Parametros de Salida: Se devuelven los datos del archivo JSON.
-    """
-    try:
-        with open(ARCHIVO_JSON, 'r') as archivo:
-            datos = json.load(archivo)
-            print("Datos cargados exitosamente.")
-    except (FileNotFoundError, json.JSONDecodeError):
-        # Crear estructura vacía si el archivo no existe o está vacío
-        datos = {
-            "admin": {"eventos": [],
-                        "cuestionarios": {},
-                        "tareas": [],
-                        "contraseña":11111}
-            
-        }
-        # Esto guarda la estructura inicial en el archivo
-        guardar_datos(datos)
-        print("Archivo de datos no encontrado. Se ha creado uno nuevo.")
-    return datos
-
-# Función para guardar datos en el archivo JSON
-def guardar_datos(datos):
-    """
-    Objetivo: Se llama cuando se quiere guardar los datos en el archivo JSON.
-    Parametros de Entrada: Ingresamos los datos del archivo.
-    Parametros de Salida: Si bien no hay ninguno return, se actualiza el JSON.
-    """
-    with open(ARCHIVO_JSON, 'w') as archivo:
-        json.dump(datos, archivo, indent=4)
-    print("Datos guardados exitosamente.")
-
-# Función para registrar actividad en el log
-def registrar_actividad(mensaje):
-    """
-    Objetivo: Se registra la actividad en un archivo.
-    Parametros de Entrada: Entra el mensaje de actividad como parametro.
-    Parametros de Salida: Si bien no hay un return, se ingresan los datos al archivo.
-    """
-    with open(ARCHIVO_LOG, 'a') as log_file:
-        timestamp = d.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log_file.write(f"{timestamp} - {mensaje}\n")
 
 # Cargar datos iniciales
-datos = cargar_datos()
+datos = Archivos.cargar_datos(ARCHIVO_JSON)
 
 
 # MENUS FUNCIONES
@@ -66,7 +22,7 @@ datos = cargar_datos()
 def menuPomodoro():
     ciclos_pomodoro = int(input("\nIngrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
     Pomodoro.pomodoro(ciclos_pomodoro)
-    registrar_actividad(f"Ejecutó {ciclos_pomodoro} ciclos Pomodoro.")
+    Archivos.registrar_actividad(f"Ejecutó {ciclos_pomodoro} ciclos Pomodoro.",ARCHIVO_LOG)
 
 def menuTareas():
     opcionTareas = 0
@@ -81,20 +37,20 @@ def menuTareas():
                 if not (1 <= prioridad <= 5):
                     print("Error: La prioridad debe ser un número entre 1 y 5.")
             Tareas.crearTarea(datos, descripcion, prioridad,usuarioActual[0])
-            guardar_datos(datos)  # Guardar después de crear una tarea
-            registrar_actividad(f"Creó tarea: {descripcion} con prioridad {prioridad}.")
+            Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de crear una tarea
+            Archivos.registrar_actividad(f"Creó tarea: {descripcion} con prioridad {prioridad}.",ARCHIVO_LOG)
         
         elif opcionTareas == 2:
             descripcion = input("Descripción de la tarea a completar: ").title()
             Tareas.completarTarea(datos, descripcion,usuarioActual[0])
-            guardar_datos(datos)  # Guardar después de completar una tarea
-            registrar_actividad(f"Completó tarea: {descripcion}.")
+            Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de completar una tarea
+            Archivos.registrar_actividad(f"Completó tarea: {descripcion}.",ARCHIVO_LOG)
         
         elif opcionTareas == 3:
             descripcion = input("Descripción de la tarea a eliminar: ").title()
             Tareas.eliminarTarea(datos, descripcion,usuarioActual[0])
-            guardar_datos(datos)  # Guardar después de eliminar tarea
-            registrar_actividad(f"Eliminó tarea: {descripcion}.")
+            Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de eliminar tarea
+            Archivos.registrar_actividad(f"Eliminó tarea: {descripcion}.",ARCHIVO_LOG)
         
         elif opcionTareas == 4:
             patron = input("Ingrese un patrón para buscar: ")
@@ -116,12 +72,12 @@ def menuAdministracionUsuarios():
             nombre = input("\nIngrese nombre de usuario a eliminar: ")
             clave = int(input("Ingrese clave numérica del usuario a eliminar: "))
             Usuarios.eliminarUsuario(datos, nombre, clave, usuarioActual)
-            guardar_datos(datos)  # Guardar después de eliminar usuario
-            registrar_actividad(f"Eliminó usuario: {nombre}.")
+            Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de eliminar usuario
+            Archivos.registrar_actividad(f"Eliminó usuario: {nombre}.",ARCHIVO_LOG)
         elif opcionUsuarios == 2:
             Usuarios.cambiarUsuario(datos, usuarioActual)
-            guardar_datos(datos)  # Guardar después de cambiar usuario
-            registrar_actividad(f"Cambió a usuario: {usuarioActual[0]}.")
+            Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de cambiar usuario
+            Archivos.registrar_actividad(f"Cambió a usuario: {usuarioActual[0]}.",ARCHIVO_LOG)
 
 def menuCalendario():
     opcionCalendario = 0
@@ -129,17 +85,17 @@ def menuCalendario():
         opcionCalendario = int(input("\n1. Mostrar calendario\n2. Agregar evento\n3. Tiempo restante eventos\n4. Mostrar eventos\n-1. Volver al menú anterior\nSelecciona una opción: "))
         if opcionCalendario == 1:
             Eventos.mostrarCalendario(DIAACTUAL, MESACTUAL, AÑOACTUAL)
-            registrar_actividad("Mostró el calendario.")
+            Archivos.registrar_actividad("Mostró el calendario.",ARCHIVO_LOG)
         elif opcionCalendario == 2:
             Eventos.agregarEvento(datos,usuarioActual[0])
-            guardar_datos(datos)  # Guardar después de agregar evento
-            registrar_actividad("Agregó un evento.")
+            Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de agregar evento
+            Archivos.registrar_actividad("Agregó un evento.",ARCHIVO_LOG)
         elif opcionCalendario == 3:
             Eventos.tiempoRestanteEventos(datos,usuarioActual[0])
-            registrar_actividad("Consultó tiempo restante de eventos.")
+            Archivos.registrar_actividad("Consultó tiempo restante de eventos.",ARCHIVO_LOG)
         elif opcionCalendario == 4:
             Eventos.mostrarEventos(datos,usuarioActual[0])
-            registrar_actividad("Mostró los eventos.")
+            Archivos.registrar_actividad("Mostró los eventos.",ARCHIVO_LOG)
 
 def menuCuestionario():
     opcionCuestionario = 0  # Inicializa la variable para la opción del cuestionario
@@ -149,8 +105,8 @@ def menuCuestionario():
         if opcionCuestionario == 1:
             # Si el usuario elige crear un cuestionario
             Cuestionarios.crearCuestionario(datos,usuarioActual[0])  # Llama a la función para crear un nuevo cuestionario
-            guardar_datos(datos)  # Guarda los datos después de crear el cuestionario
-            registrar_actividad("Creó un cuestionario.")  # Registra la actividad
+            Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guarda los datos después de crear el cuestionario
+            Archivos.registrar_actividad("Creó un cuestionario.",ARCHIVO_LOG)  # Registra la actividad
 
         elif opcionCuestionario == 2:
             # Si el usuario elige ejecutar un cuestionario
@@ -165,7 +121,7 @@ def menuCuestionario():
             
             if cuestionario is not None:  # Verifica si el cuestionario existe
                 Cuestionarios.ejecutarCuestionario(cuestionario)  # Ejecuta el cuestionario
-                registrar_actividad(f"Ejecución del cuestionario: {nom}.")  # Registra la actividad
+                Archivos.registrar_actividad(f"Ejecución del cuestionario: {nom}.",ARCHIVO_LOG)  # Registra la actividad
             else:
                 print("Cuestionario inexistente.")  # Notifica si el cuestionario no existe
 
@@ -184,10 +140,10 @@ def main():
             opcionUsuario = int(input("\n 1. Ingresar usuario\n 2. Crear usuario\n-1. Salir\nSelecciona una opción: "))
             if opcionUsuario == 1:
                 Usuarios.cambiarUsuario(datos, usuarioActual)
-                guardar_datos(datos)
+                Archivos.guardar_datos(datos,ARCHIVO_JSON)
             elif opcionUsuario == 2:
                 Usuarios.cargarUsuario(datos, usuarioActual)
-                guardar_datos(datos)
+                Archivos.guardar_datos(datos,ARCHIVO_JSON)
         else:
             opcionMenuPrincipal = int(input("\n 1. Administrar usuarios\n 2. Calendario y eventos\n 3. Cuestionarios\n 4. Técnica Pomodoro\n 5. Administrar tareas\n-1. Volver al menú anterior\nSelecciona una opción: "))
             if opcionMenuPrincipal == 1:

@@ -1,0 +1,20 @@
+{
+    "admin": {
+        "eventos": [],
+        "cuestionarios": {},
+        "tareas": [],
+        "contrase\u00f1a": "A11111111"
+    },
+    "Usuario1": {
+        "eventos": [],
+        "cuestionarios": {},
+        "tareas": [
+            {
+                "descripcion": "A",
+                "prioridad": 1,
+                "completa": false
+            }
+        ],
+        "contrase\u00f1a": "A11111111"
+    }
+}
