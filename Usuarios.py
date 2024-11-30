@@ -13,7 +13,7 @@ def cargarUsuario(diccionarioUsuarios,usuActual):
         print("\nError: El nombre de usuario ya existe.")
         return
     else:
-        clave = (input("Ingrese clave numérica: "))
+        clave = (input("Ingrese clave numérica (Debe contener al menos una mayuscula, al menos un número y minimo 8 caracteres): "))
         patronMayuscula="[A-Z]"
         patronNumero="[0-9]"
         if re.search(patronMayuscula,clave) and re.search(patronNumero,clave) and len(clave) > 8:
