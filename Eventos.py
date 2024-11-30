@@ -24,7 +24,7 @@ def mostrarCalendario(dia, mes, año):
             else:
                 print(f"{GREEN}{i + 1}{RESET}".center(15))
             contador = 0
-
+    print("")
 def ordenarEventos(listaEventos,usuario):
     """
     Ordena los eventos en la lista en base a la fecha más próxima.

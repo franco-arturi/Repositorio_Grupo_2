@@ -52,7 +52,7 @@ Selecciona una opción: """))
             opcionTareas=0
 
         if opcionTareas == 1:
-            descripcion = input("Descripción de la tarea: ").title()
+            descripcion = input("\nDescripción de la tarea: ").title()
             prioridad = 0
             while not (1 <= prioridad <= 5):
                 try:
@@ -66,19 +66,19 @@ Selecciona una opción: """))
             Archivos.registrar_actividad(f"Creó tarea: {descripcion} con prioridad {prioridad}.",ARCHIVO_LOG)
         
         elif opcionTareas == 2:
-            descripcion = input("Descripción de la tarea a completar: ").title()
+            descripcion = input("\nDescripción de la tarea a completar: ").title()
             Tareas.completarTarea(datos, descripcion,usuarioActual[0])
             Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de completar una tarea
             Archivos.registrar_actividad(f"Completó tarea: {descripcion}.",ARCHIVO_LOG)
         
         elif opcionTareas == 3:
-            descripcion = input("Descripción de la tarea a eliminar: ").title()
+            descripcion = input("\nDescripción de la tarea a eliminar: ").title()
             Tareas.eliminarTarea(datos, descripcion,usuarioActual[0])
             Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de eliminar tarea
             Archivos.registrar_actividad(f"Eliminó tarea: {descripcion}.",ARCHIVO_LOG)
         
         elif opcionTareas == 4:
-            patron = input("Ingrese un patrón para buscar: ")
+            patron = input("\nIngrese un patrón para buscar: ")
             Tareas.buscarTarea(datos, patron,usuarioActual[0])
         
         elif opcionTareas == 5:
