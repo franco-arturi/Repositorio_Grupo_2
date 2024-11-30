@@ -13,7 +13,7 @@ def crearCuestionario(diccionarioCUestionarios,usuario):
     try:
         numPreguntas = int(input("\n¿Número de preguntas para el cuestionario? "))
     except ValueError:
-        pregunta("Debe ingresar solo números.")
+        pregunta("Por favor, ingrese únicamente valores numéricos.")
         return
     for i in range(numPreguntas):
         print(f"\nCreando pregunta {i + 1}:")
@@ -23,7 +23,7 @@ def crearCuestionario(diccionarioCUestionarios,usuario):
         try:
             correcta = int(input("¿Cuál es la opción correcta (1, 2 o 3)? "))
         except ValueError:
-            print("Debe ingresar solo números.")
+            print("Por favor, ingrese únicamente valores numéricos.")
             return
         cuestionario.append({"pregunta": pregunta, "opciones": opciones, "correcta": correcta})
     
@@ -45,7 +45,7 @@ def mostrarPregunta(pregunta, opciones):
     try:
         eleccion = int(input("Selecciona la opción correcta (1, 2 o 3): "))
     except ValueError:
-        print("Debe ingresar solo números.")
+        print("Por favor, ingrese únicamente valores numéricos.")
         return
     return eleccion
 

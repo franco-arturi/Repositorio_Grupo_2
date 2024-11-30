@@ -40,7 +40,7 @@ def agregarEvento(listaEventos,usuario):
         mesEvento = int(input("Ingrese mes del evento: "))
         añoEvento = int(input("Ingrese año del evento: "))
     except ValueError:
-        print("La fecha debe ser números enteros.")
+        print("Por favor, ingrese únicamente valores numéricos.")
         return
 
     try:
