@@ -23,6 +23,10 @@ Generacion de reportes.<br>
 Etapa 80%<br>
 Agregar base de datos para cada usuario.<br>
 Validacion de contraseñas<br>
-Filtrar tareas por estado y prioridad<br>
-Historial de tareas completadas<br>
-Cambiar permisos de los usuarios<br>
+Historial de activdad<br>
+
+
+Etapa 100%<br>
+Excepciones en los inputs<br>
+Mejora de la consola<br>
+Correcion de error al crear usuario<br>
