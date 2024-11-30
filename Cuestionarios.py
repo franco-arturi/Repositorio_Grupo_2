@@ -10,14 +10,21 @@ def crearCuestionario(diccionarioCUestionarios,usuario):
     # Ingresamo tematica del cuestionario, cantidad de preguntas y los detalles de cada una.
     nombreCuestionario=(input("Ingrese tematica del cuestionario.")).title()    
     cuestionario = []
-    numPreguntas = int(input("\n¿Número de preguntas para el cuestionario? "))
-    
+    try:
+        numPreguntas = int(input("\n¿Número de preguntas para el cuestionario? "))
+    except ValueError:
+        pregunta("Debe ingresar solo números.")
+        return
     for i in range(numPreguntas):
         print(f"\nCreando pregunta {i + 1}:")
         pregunta = input("Escribe la pregunta: ")
         print("Nota: Solo se permiten 3 opciones de respuesta.")
         opciones = [input(f"Opción {j + 1}: ") for j in range(3)] 
-        correcta = int(input("¿Cuál es la opción correcta (1, 2 o 3)? "))
+        try:
+            correcta = int(input("¿Cuál es la opción correcta (1, 2 o 3)? "))
+        except ValueError:
+            print("Debe ingresar solo números.")
+            return
         cuestionario.append({"pregunta": pregunta, "opciones": opciones, "correcta": correcta})
     
     print("\nCuestionario creado exitosamente.")
@@ -35,7 +42,11 @@ def mostrarPregunta(pregunta, opciones):
     for i, opcion in enumerate(opciones, 1): #permite iterar sobre una secuencia l mismo tiempo y
         # obtener tanto el índice de cada elemento como el propio elemento
         print(f"{i}. {opcion}")
-    eleccion = int(input("Selecciona la opción correcta (1, 2 o 3): "))
+    try:
+        eleccion = int(input("Selecciona la opción correcta (1, 2 o 3): "))
+    except ValueError:
+        print("Debe ingresar solo números.")
+        return
     return eleccion
 
 def ejecutarCuestionario(cuestionario):

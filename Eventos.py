@@ -35,10 +35,14 @@ def agregarEvento(listaEventos,usuario):
     """
     Agrega un nuevo evento a la lista de eventos, asegurando que la fecha no sea en el pasado.
     """
-    diaEvento = int(input("\nIngrese día del evento: "))
-    mesEvento = int(input("Ingrese mes del evento: "))
-    añoEvento = int(input("Ingrese año del evento: "))
-    
+    try:
+        diaEvento = int(input("\nIngrese día del evento: "))
+        mesEvento = int(input("Ingrese mes del evento: "))
+        añoEvento = int(input("Ingrese año del evento: "))
+    except ValueError:
+        print("La fecha debe ser números enteros.")
+        return
+
     try:
         fechaEvento = d.datetime(añoEvento, mesEvento, diaEvento)
     except ValueError as e:
