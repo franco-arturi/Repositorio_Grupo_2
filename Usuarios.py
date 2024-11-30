@@ -1,4 +1,4 @@
-
+import re
 
 def cargarUsuario(diccionarioUsuarios,usuActual):
     """
@@ -13,16 +13,21 @@ def cargarUsuario(diccionarioUsuarios,usuActual):
         print("\nError: El nombre de usuario ya existe.")
         return
     else:
-        clave = int(input("Ingrese clave numérica: "))
-        
-        diccionarioUsuarios[nombre]={
-                                    "eventos": [],
-                                    "cuestionarios": {},
-                                    "tareas": [],
-                                    "contrase\u00f1a": clave
-    }
-        print("\nUsuario creado exitosamente.")
-        usuActual[:]=[nombre,clave]
+        clave = (input("Ingrese clave numérica: "))
+        patronMayuscula="[A-Z]"
+        patronNumero="[0-9]"
+        if re.search(patronMayuscula,clave) and re.search(patronNumero,clave) and len(clave) > 8:
+            diccionarioUsuarios[nombre]={
+                                        "eventos": [],
+                                        "cuestionarios": {},
+                                        "tareas": [],
+                                        "contrase\u00f1a": clave
+        }
+            print("\nUsuario creado exitosamente.")
+            usuActual[:]=[nombre,clave]
+        else:
+            print("\nError: Formato de la clave erroneo.")
+            return            
 
 def cambiarUsuario(diccionarioUsuarios, usuActual):
     """
@@ -33,7 +38,7 @@ def cambiarUsuario(diccionarioUsuarios, usuActual):
     nuevoUsuario = input("\nIngrese nombre de usuario: ")
     
     if nuevoUsuario in diccionarioUsuarios:
-        contraseña = int(input("Ingrese contraseña: "))
+        contraseña = (input("Ingrese contraseña: "))
         if diccionarioUsuarios[nuevoUsuario]["contraseña"] == contraseña:
             usuActual[:] = [nuevoUsuario,contraseña]
             print("\nUsuario cambiado exitosamente.")
