@@ -196,12 +196,11 @@ def main():
     while opcionMenuPrincipal != -1:
         if usuarioActual == [0, 0]:
             try: 
-                opcionUsuario = int(input("""\n ========================================
+                opcionUsuario = int(input("""\n========================================
           MENÚ DE USUARIO              
 ========================================
 [1] Ingresar usuario
 [2] Crear usuario
-[-1] Salir
 ========================================
 Selecciona una opción: """))
             except ValueError:
@@ -223,7 +222,7 @@ Selecciona una opción: """))
 [3] Cuestionarios
 [4] Técnica Pomodoro
 [5] Administrar tareas
-[-1] Volver al menú anterior
+[-1] Salir
 ========================================
 Selecciona una opción: """))
             except ValueError:
