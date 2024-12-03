@@ -19,20 +19,45 @@ datos = Archivos.cargar_datos(ARCHIVO_JSON)
 # MENUS FUNCIONES
 
 def menuPomodoro():
-    ciclos_pomodoro = int(input("\nIngrese la cantidad de ciclos Pomodoro (cada ciclo es 25 min de trabajo y 5 min de descanso): "))
-    Pomodoro.pomodoro(ciclos_pomodoro)
-    Archivos.registrar_actividad(f"Ejecutó {ciclos_pomodoro} ciclos Pomodoro.",ARCHIVO_LOG)
-
+    try:
+        ciclos_pomodoro = int(input("""========================================
+       CONFIGURACIÓN POMODORO          
+========================================
+Por favor, ingrese la cantidad de ciclos Pomodoro.  
+Nota: Cada ciclo incluye 25 minutos de trabajo y 5 minutos de descanso.
+========================================
+Cantidad de ciclos: """))
+        Pomodoro.pomodoro(ciclos_pomodoro)
+        Archivos.registrar_actividad(f"Ejecutó {ciclos_pomodoro} ciclos Pomodoro.",ARCHIVO_LOG)
+    except ValueError:
+        print("Ingrese un numero entero para la cantidad de ciclos.")
 def menuTareas():
     opcionTareas = 0
     while opcionTareas != -1:
-        opcionTareas = int(input("\n 1. Crear tarea\n 2. Completar tarea\n 3. Eliminar tarea\n 4. Buscar tarea\n 5. Ver todas las tareas\n-1. Volver al menú anterior\nSelecciona una opción: "))
-        
+        try:
+            opcionTareas = int(input("""========================================
+           GESTIÓN DE TAREAS           
+========================================
+[1] Crear tarea
+[2] Completar tarea
+[3] Eliminar tarea
+[4] Buscar tarea
+[5] Ver todas las tareas
+[-1] Volver al menú anterior
+========================================
+Selecciona una opción: """))
+        except ValueError:
+            print("Por favor, ingrese únicamente valores numéricos.")
+            opcionTareas=0
+
         if opcionTareas == 1:
-            descripcion = input("Descripción de la tarea: ").title()
+            descripcion = input("\nDescripción de la tarea: ").title()
             prioridad = 0
             while not (1 <= prioridad <= 5):
-                prioridad = int(input("Prioridad de la tarea (1-5): "))
+                try:
+                    prioridad = int(input("Prioridad de la tarea (1-5): "))
+                except ValueError:
+                    prioridad=0
                 if not (1 <= prioridad <= 5):
                     print("Error: La prioridad debe ser un número entre 1 y 5.")
             Tareas.crearTarea(datos, descripcion, prioridad,usuarioActual[0])
@@ -40,19 +65,19 @@ def menuTareas():
             Archivos.registrar_actividad(f"Creó tarea: {descripcion} con prioridad {prioridad}.",ARCHIVO_LOG)
         
         elif opcionTareas == 2:
-            descripcion = input("Descripción de la tarea a completar: ").title()
+            descripcion = input("\nDescripción de la tarea a completar: ").title()
             Tareas.completarTarea(datos, descripcion,usuarioActual[0])
             Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de completar una tarea
             Archivos.registrar_actividad(f"Completó tarea: {descripcion}.",ARCHIVO_LOG)
         
         elif opcionTareas == 3:
-            descripcion = input("Descripción de la tarea a eliminar: ").title()
+            descripcion = input("\nDescripción de la tarea a eliminar: ").title()
             Tareas.eliminarTarea(datos, descripcion,usuarioActual[0])
             Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de eliminar tarea
             Archivos.registrar_actividad(f"Eliminó tarea: {descripcion}.",ARCHIVO_LOG)
         
         elif opcionTareas == 4:
-            patron = input("Ingrese un patrón para buscar: ")
+            patron = input("\nIngrese un patrón para buscar: ")
             Tareas.buscarTarea(datos, patron,usuarioActual[0])
         
         elif opcionTareas == 5:
@@ -66,10 +91,21 @@ def menuTareas():
 def menuAdministracionUsuarios():
     opcionUsuarios = 0
     while opcionUsuarios != -1 and usuarioActual != [0,0]:
-        opcionUsuarios = int(input("\n1. Eliminar usuario\n2. Cambiar usuario\n-1. Volver al menú anterior\nSelecciona una opción: "))
+        try:
+            opcionUsuarios = int(input("""========================================
+          GESTIÓN DE USUARIOS          
+========================================
+[1] Eliminar usuario
+[2] Cambiar de usuario
+[-1] Volver al menú anterior
+========================================
+Selecciona una opción: """))
+        except ValueError:
+            print("Por favor, ingrese únicamente valores numéricos.")
+            opcionUsuarios=0
         if opcionUsuarios == 1:
             nombre = input("\nIngrese nombre de usuario a eliminar: ")
-            clave = int(input("Ingrese clave numérica del usuario a eliminar: "))
+            clave = (input("Ingrese clave  del usuario a eliminar: "))
             Usuarios.eliminarUsuario(datos, nombre, clave, usuarioActual)
             Archivos.guardar_datos(datos,ARCHIVO_JSON)  # Guardar después de eliminar usuario
             Archivos.registrar_actividad(f"Eliminó usuario: {nombre}.",ARCHIVO_LOG)
@@ -81,7 +117,20 @@ def menuAdministracionUsuarios():
 def menuCalendario():
     opcionCalendario = 0
     while opcionCalendario != -1:
-        opcionCalendario = int(input("\n1. Mostrar calendario\n2. Agregar evento\n3. Tiempo restante eventos\n4. Mostrar eventos\n-1. Volver al menú anterior\nSelecciona una opción: "))
+        try:
+            opcionCalendario = int(input("""========================================
+           CALENDARIO Y EVENTOS         
+========================================
+[1] Mostrar calendario
+[2] Agregar evento
+[3] Tiempo restante para eventos
+[4] Mostrar eventos
+[-1] Volver al menú anterior
+========================================
+Selecciona una opción: """))
+        except ValueError:
+            print("Por favor, ingrese únicamente valores numéricos.")
+            opcionCalendario=0
         if opcionCalendario == 1:
             Eventos.mostrarCalendario(DIAACTUAL, MESACTUAL, AÑOACTUAL)
             Archivos.registrar_actividad("Mostró el calendario.",ARCHIVO_LOG)
@@ -99,8 +148,18 @@ def menuCalendario():
 def menuCuestionario():
     opcionCuestionario = 0  # Inicializa la variable para la opción del cuestionario
     while opcionCuestionario != -1:  # Continúa el bucle hasta que se elija volver al menú anterior
-        opcionCuestionario = int(input("\nIngrese operación: \n 1) Crear Cuestionario. \n 2) Ejecutar cuestionario.\n-1) Volver al menú anterior\nOpción:  "))
-        
+        try:
+            opcionCuestionario = int(input("""========================================
+         GESTIÓN DE CUESTIONARIOS      
+========================================
+[1] Crear cuestionario
+[2] Ejecutar cuestionario
+[-1] Volver al menú anterior
+========================================
+Ingrese su opción: """))
+        except ValueError:
+            print("Por favor, ingrese únicamente valores numéricos.")
+            opcionCuestionario=0
         if opcionCuestionario == 1:
             # Si el usuario elige crear un cuestionario
             Cuestionarios.crearCuestionario(datos,usuarioActual[0])  # Llama a la función para crear un nuevo cuestionario
@@ -136,7 +195,18 @@ def main():
     opcionMenuPrincipal = 0
     while opcionMenuPrincipal != -1:
         if usuarioActual == [0, 0]:
-            opcionUsuario = int(input("\n 1. Ingresar usuario\n 2. Crear usuario\n-1. Salir\nSelecciona una opción: "))
+            try: 
+                opcionUsuario = int(input("""\n ========================================
+          MENÚ DE USUARIO              
+========================================
+[1] Ingresar usuario
+[2] Crear usuario
+[-1] Salir
+========================================
+Selecciona una opción: """))
+            except ValueError:
+                print("Por favor, ingrese únicamente valores numéricos.")
+                opcionUsuario=0
             if opcionUsuario == 1:
                 Usuarios.cambiarUsuario(datos, usuarioActual)
                 Archivos.guardar_datos(datos,ARCHIVO_JSON)
@@ -144,7 +214,21 @@ def main():
                 Usuarios.cargarUsuario(datos, usuarioActual)
                 Archivos.guardar_datos(datos,ARCHIVO_JSON)
         else:
-            opcionMenuPrincipal = int(input("\n 1. Administrar usuarios\n 2. Calendario y eventos\n 3. Cuestionarios\n 4. Técnica Pomodoro\n 5. Administrar tareas\n-1. Volver al menú anterior\nSelecciona una opción: "))
+            try:
+                opcionMenuPrincipal = int(input("""========================================
+           MENÚ PRINCIPAL              
+========================================
+[1] Administrar usuarios
+[2] Calendario y eventos
+[3] Cuestionarios
+[4] Técnica Pomodoro
+[5] Administrar tareas
+[-1] Volver al menú anterior
+========================================
+Selecciona una opción: """))
+            except ValueError:
+                print("Por favor, ingrese únicamente valores numéricos.")
+                opcionMenuPrincipal=0
             if opcionMenuPrincipal == 1:
                 menuAdministracionUsuarios()            
             elif opcionMenuPrincipal == 2:

@@ -24,7 +24,7 @@ def mostrarCalendario(dia, mes, año):
             else:
                 print(f"{GREEN}{i + 1}{RESET}".center(15))
             contador = 0
-
+    print("")
 def ordenarEventos(listaEventos,usuario):
     """
     Ordena los eventos en la lista en base a la fecha más próxima.
@@ -35,10 +35,14 @@ def agregarEvento(listaEventos,usuario):
     """
     Agrega un nuevo evento a la lista de eventos, asegurando que la fecha no sea en el pasado.
     """
-    diaEvento = int(input("\nIngrese día del evento: "))
-    mesEvento = int(input("Ingrese mes del evento: "))
-    añoEvento = int(input("Ingrese año del evento: "))
-    
+    try:
+        diaEvento = int(input("\nIngrese día del evento: "))
+        mesEvento = int(input("Ingrese mes del evento: "))
+        añoEvento = int(input("Ingrese año del evento: "))
+    except ValueError:
+        print("Por favor, ingrese únicamente valores numéricos.")
+        return
+
     try:
         fechaEvento = d.datetime(añoEvento, mesEvento, diaEvento)
     except ValueError as e:
